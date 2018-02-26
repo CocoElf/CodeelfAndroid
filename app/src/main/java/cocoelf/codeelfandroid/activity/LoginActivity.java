@@ -1,4 +1,4 @@
-package cocoelf.codeelfandroid;
+package cocoelf.codeelfandroid.activity;
 
 import android.os.Build;
 import android.support.v7.app.ActionBar;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.githang.statusbar.StatusBarCompat;
+
+import cocoelf.codeelfandroid.R;
 
 public class LoginActivity extends AppCompatActivity {
 
