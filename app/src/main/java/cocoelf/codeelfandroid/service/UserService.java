@@ -1,13 +1,14 @@
 package cocoelf.codeelfandroid.service;
 
 import org.androidannotations.rest.spring.annotations.Body;
+import org.androidannotations.rest.spring.annotations.Part;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import cocoelf.codeelfandroid.exception.MyResponseErrorHandler;
-import cocoelf.codeelfandroid.json.UserJson;
+import cocoelf.codeelfandroid.json.UserModel;
 import cocoelf.codeelfandroid.util.RestAPI;
 
 /**
@@ -21,7 +22,16 @@ import cocoelf.codeelfandroid.util.RestAPI;
 public interface UserService {
 
     @Post("/api/user/signUp")
-    UserJson signUp(@Body UserJson userJson);
+    UserModel signUp(@Part String username,@Part String password);
+
+    @Post("/api/user/login")
+    UserModel login(@Part String username,@Part String password);
+
+    @Post("/api/user/userDetail")
+    UserModel getUserDetail(@Part String username);
+
+    @Post("/api/user/ModifyUser")
+    UserModel modifyUser(@Body UserModel userModel);
 
 
 }
