@@ -5,12 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,6 +22,7 @@ import cocoelf.codeelfandroid.fragment.AdviceFragment;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment;
+import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -107,12 +110,23 @@ public class MainActivity extends AppCompatActivity
 
                 menuItem = bottomNavigationView.getMenu().getItem(position);
                 menuItem.setChecked(true);
+                popAll();
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    /**
+     * 弹出所有的fragment
+     */
+    private void popAll(){
+        int num = getSupportFragmentManager().getBackStackEntryCount();
+        for (int i = 0; i < num; i++) {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     /*
@@ -127,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ClockFragment());
         adapter.addFragment(new AdviceFragment());
-        adapter.addFragment(new SearchFragment());
+        adapter.addFragment(new SearchFragment_());
         adapter.addFragment(new MemoFragment());
         adapter.addFragment(new ShareFragment());
         viewPager.setAdapter(adapter);
