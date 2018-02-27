@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity
     private ViewPager viewPager;
     private MenuItem menuItem;
     private BottomNavigationView bottomNavigationView;
-    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         initBottomNavigationView();
         initViewpager();
-
         setupViewPager(viewPager);
+        setInitPage();
     }
 
     private void initBottomNavigationView(){
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity
                         return true;
                     }
                 });
+//        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(2).getItemId());
 
     }
 
@@ -113,6 +113,14 @@ public class MainActivity extends AppCompatActivity
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    /*
+     *设置初始默认页面
+     */
+    private void setInitPage(){
+        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(2).getItemId());
+        viewPager.setCurrentItem(2);
     }
 
     private void setupViewPager(ViewPager viewPager) {
