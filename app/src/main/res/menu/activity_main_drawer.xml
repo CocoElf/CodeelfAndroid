@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_userinfo"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="我的信息" />
+        <item
+            android:id="@+id/nav_clock"
+            android:icon="@drawable/ic_alarm_black_24dp"
+            android:title="我的计时" />
+        <item
+            android:id="@+id/nav_memo"
+            android:icon="@drawable/ic_event_note_black_24dp"
+            android:title="我的备忘" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="我的分享" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="设置" />
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="退出账号" />
+
+    </group>
+
+
+</menu>

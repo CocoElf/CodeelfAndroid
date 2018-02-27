@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_clock"
+        android:icon="@drawable/ic_alarm_black_24dp"
+        android:title="计时" />
+    <item
+        android:id="@+id/item_advice"
+        android:icon="@drawable/ic_chat_black_24dp"
+        android:title="建议" />
+
+    <item
+        android:id="@+id/menu_empty"
+        android:title="" />
+
+    <item
+        android:id="@+id/item_memo"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="备忘录" />
+    <item
+        android:id="@+id/item_share"
+        android:icon="@drawable/ic_edit_black_24dp"
+        android:title="分享" />
+</menu>

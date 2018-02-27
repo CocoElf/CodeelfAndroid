@@ -3,4 +3,6 @@
     <color name="colorPrimary">#1AA8F2</color>
     <color name="colorPrimaryDark">#1AA8F2</color>
     <color name="colorAccent">#1AA8F2</color>
+    <color name="tab_unchecked">#FF000000</color>
+    <color name="tab_checked">#1AA8F2</color>
 </resources>
