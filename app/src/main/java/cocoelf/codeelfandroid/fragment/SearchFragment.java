@@ -19,6 +19,6 @@ public class SearchFragment extends Fragment {
     void ss(){
         getFragmentManager().beginTransaction()
                 .addToBackStack(null)  //将当前fragment加入到返回栈中
-                .replace(R.id.fragment_container, new DetailFragment_()).commit();
+                .replace(R.id.fragment_container, new SearchResultFragment_()).commit();
     }
 }

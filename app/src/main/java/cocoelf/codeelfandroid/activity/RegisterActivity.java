@@ -1,12 +1,14 @@
 package cocoelf.codeelfandroid.activity;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -35,6 +37,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     @ViewById(R.id.password_confirm_input)
     EditText passwordConfirmInput;
+
+    @AfterViews
+    void init(){
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.hide();
+        }
+    }
 
     @Click(R.id.register_btn)
     void register(){
