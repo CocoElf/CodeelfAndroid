@@ -16,6 +16,9 @@ android {
             }
         }
         flavorDimensions "versionCode"
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', "x86"
+        }
     }
 
     productFlavors {
@@ -33,7 +36,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDirs =['libs']
+            jniLibs.srcDirs = ['libs']
         }
     }
     lintOptions {
@@ -66,6 +69,7 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+
 
 }
 dependencies {
@@ -122,11 +126,10 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
 dependencies {
-    implementation 'com.android.support:support-v4:26.+'
-}
-dependencies {
-    implementation 'com.android.support:support-v4:26.+'
-}
-dependencies {
     compile 'com.microsoft.projectoxford:speechrecognition:1.2.2'
+    compile 'com.carlos.voiceline:mylibrary:1.0.6'
 }
+dependencies {
+    implementation 'com.android.support:support-v4:26.+'
+}
+

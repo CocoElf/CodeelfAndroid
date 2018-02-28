@@ -200,6 +200,7 @@ public class DemoActivity extends Activity implements ISpeechRecognitionServerEv
             }
 
             this.micClient.startMicAndRecognition();
+
         }
 
     }
