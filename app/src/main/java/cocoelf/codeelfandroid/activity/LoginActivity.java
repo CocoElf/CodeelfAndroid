@@ -17,6 +17,8 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.net.ConnectException;
+
 import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.exception.ResponseException;
 import cocoelf.codeelfandroid.json.UserModel;
@@ -66,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
             saveLogin(userModel);
         }catch (ResponseException e){
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(this,"请检查网络连接",Toast.LENGTH_SHORT).show();
         }
     }
 

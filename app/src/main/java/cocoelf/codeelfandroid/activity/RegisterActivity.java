@@ -67,6 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
             toLogin(userModel.getUsername(),password);
         }catch (ResponseException e){
             submitFail(e.getMessage());
+        }catch (Exception e){
+            Toast.makeText(this,"请检查网络连接",Toast.LENGTH_SHORT).show();
         }
     }
 
