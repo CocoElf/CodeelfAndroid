@@ -36,15 +36,16 @@ import cocoelf.codeelfandroid.fragment.ClockFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
+import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener ,ISpeechRecognitionServerEvents {
     MicrophoneRecognitionClient micClient = null;
     private ViewPager viewPager;
     private MenuItem menuItem;
     private BottomNavigationView bottomNavigationView;
-    boolean isSearch;
+    String sPrev="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         initViewpager();
         setupViewPager(viewPager);
         setInitPage();
+//        initMicClient();
 
     }
 
@@ -136,7 +138,20 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    private void initMicClient() {
+        if (this.micClient == null) {
+            this.micClient = SpeechRecognitionServiceFactory.createMicrophoneClient(
+                    this,
+                    SpeechRecognitionMode.LongDictation,
+                    this.getString(R.string.localLanguage),
+                    this,
+                    this.getString(R.string.primaryKey)
+            );
 
+            this.micClient.setAuthenticationUri("");
+        }
+        micClient.startMicAndRecognition();
+    }
     /**
      * 弹出所有的fragment
      */
@@ -222,5 +237,68 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    //以下是语音部分
+    @Override
+    public void onPartialResponseReceived(String s) {
+
+    }
+
+    @Override
+    public void onFinalResponseReceived(RecognitionResult response) {
+        boolean isFinalDicationMessage = this.getMode() == SpeechRecognitionMode.LongDictation &&
+                (response.RecognitionStatus == RecognitionStatus.EndOfDictation ||
+                        response.RecognitionStatus == RecognitionStatus.DictationEndSilenceTimeout);
+
+        int max = 0;
+
+        if(response.Results.length>0){
+            String s = response.Results[0].DisplayText;
+
+            if(sPrev.equals("小精灵")){
+                sPrev="";
+                viewPager.setCurrentItem(2, false);
+                search(s);
+            } else if (s.equals("小精灵")){
+                sPrev=s;
+            }
+        }
+
+    }
+
+    private void search(String keyword){
+        Fragment fragment=new SearchResultFragment_();
+        Bundle bundle=new Bundle();
+        bundle.putString("keyword",keyword);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)  //将当前fragment加入到返回栈中
+                .replace(R.id.fragment_container, fragment).commit();
+    }
+
+    /**
+     * Gets the current speech recognition mode.
+     *
+     * @return The speech recognition mode.
+     */
+    private SpeechRecognitionMode getMode() {
+        return SpeechRecognitionMode.LongDictation;
+
+    }
+
+    @Override
+    public void onIntentReceived(String s) {
+        //没用到
+    }
+
+    @Override
+    public void onError(int i, String s) {
+        Toast.makeText(getApplicationContext(), "错误信息：" + s,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAudioEvent(boolean recording) {
+    }
 
 }

@@ -1,17 +1,9 @@
 package cocoelf.codeelfandroid.fragment;
 
-import android.content.Context;
-import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,7 +25,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Random;
 
 import cocoelf.codeelfandroid.R;
-import cocoelf.codeelfandroid.activity.DemoActivity;
 
 @EFragment(R.layout.fragment_search)
 public class SearchFragment extends Fragment implements ISpeechRecognitionServerEvents {
