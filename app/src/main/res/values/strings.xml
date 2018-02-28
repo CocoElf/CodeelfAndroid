@@ -20,6 +20,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="primaryKey">186ffcb720494b1a98edbe0df7713b14</string>
+
+    <string name="localLanguage">zh-cn</string>
+
     <string name="add_subscription_key_tip_title">Subscription Key is Needed</string>
     <string name="add_subscription_key_tip">Please put your subscription key to source file \"app/res/values/strings.xml\" to enable Speech API calls.</string>
 
@@ -27,5 +30,6 @@
 
     <string name="luisAppID">yourLuisAppID</string>
     <string name="luisSubscriptionID">yourLuisSubscriptionID</string>
+    <string name="search_sample_input">查询c++的abs函数\n查询工厂模式\nArraylist和linkedlist的区别\n如何在python中计算微积分\n......</string>
 
 </resources>

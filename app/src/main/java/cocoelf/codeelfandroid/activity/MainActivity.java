@@ -1,10 +1,12 @@
 package cocoelf.codeelfandroid.activity;
 
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +17,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.carlos.voiceline.mylibrary.VoiceLineView;
+import com.microsoft.cognitiveservices.speechrecognition.ISpeechRecognitionServerEvents;
+import com.microsoft.cognitiveservices.speechrecognition.MicrophoneRecognitionClient;
+import com.microsoft.cognitiveservices.speechrecognition.RecognitionResult;
+import com.microsoft.cognitiveservices.speechrecognition.RecognitionStatus;
+import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionMode;
+import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServiceFactory;
 
 import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
@@ -26,10 +39,12 @@ import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
+    MicrophoneRecognitionClient micClient = null;
     private ViewPager viewPager;
     private MenuItem menuItem;
     private BottomNavigationView bottomNavigationView;
+    boolean isSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +66,7 @@ public class MainActivity extends AppCompatActivity
         initViewpager();
         setupViewPager(viewPager);
         setInitPage();
+
     }
 
     private void initBottomNavigationView(){
@@ -81,6 +97,7 @@ public class MainActivity extends AppCompatActivity
                                 position = 4;
                                 break;
                         }
+                        popAll();
                         if (previousPosition != position) {
                             viewPager.setCurrentItem(position, false);
                             previousPosition = position;
@@ -110,7 +127,7 @@ public class MainActivity extends AppCompatActivity
 
                 menuItem = bottomNavigationView.getMenu().getItem(position);
                 menuItem.setChecked(true);
-                popAll();
+
             }
 
             @Override
@@ -118,6 +135,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
 
     /**
      * 弹出所有的fragment
@@ -203,4 +221,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
