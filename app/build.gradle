@@ -15,11 +15,32 @@ android {
                 arguments = ["resourcePackageName": android.defaultConfig.applicationId]
             }
         }
+        flavorDimensions "versionCode"
+    }
+
+    productFlavors {
+        x86 {
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        arm {
+            ndk {
+                abiFilters "armeabi"
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs =['libs']
+        }
     }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -45,6 +66,7 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -103,4 +125,7 @@ dependencies {
 }
 dependencies {
     implementation 'com.android.support:support-v4:26.+'
+}
+dependencies {
+    compile 'com.microsoft.projectoxford:speechrecognition:1.2.2'
 }
