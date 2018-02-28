@@ -168,6 +168,8 @@ public class SearchResultFragment extends Fragment {
             setSearchResultModelList(resultModelList);
         }catch (ResponseException e){
             Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
         }
     }
 
