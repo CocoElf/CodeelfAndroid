@@ -56,6 +56,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return searchResultModelList.size();
     }
 
+
     @Override
     public void onClick(View view) {
         if(mOnItemClickListener!=null){

@@ -1,13 +1,19 @@
 package cocoelf.codeelfandroid.json;
 
+import java.io.Serializable;
+
 /**
  * Created by shea on 2018/2/27.
  */
 
-public class SearchResultModel {
+public class SearchResultModel implements Serializable{
     private String name;
     private String url;
     private String snippet;
+
+
+    public SearchResultModel() {
+    }
 
     public SearchResultModel(String name, String url, String snippet) {
         this.name = name;
