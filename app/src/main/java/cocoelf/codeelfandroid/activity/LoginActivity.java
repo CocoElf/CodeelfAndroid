@@ -1,7 +1,10 @@
 package cocoelf.codeelfandroid.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
 import cocoelf.codeelfandroid.R;
+import cocoelf.codeelfandroid.exception.ResponseException;
 import cocoelf.codeelfandroid.json.UserModel;
 import cocoelf.codeelfandroid.service.UserService;
 
@@ -29,8 +33,14 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.password_input)
     EditText passwordInput;
 
+    private static final String TAG = "LoginActivity";
+
     @AfterViews
-    void setInput(){
+    void init(){
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.hide();
+        }
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
         String password = intent.getStringExtra("password");
@@ -51,13 +61,25 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void submit(String username,String password){
-        UserModel userModel = userService.login(username,password);
-        showInfo(userModel);
+        try{
+            UserModel userModel = userService.login(username,password);
+            saveLogin(userModel);
+        }catch (ResponseException e){
+            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     @UiThread
-    void showInfo(UserModel userModel){
-        Toast.makeText(this,userModel.toString(),Toast.LENGTH_SHORT).show();
+    void saveLogin(UserModel userModel){
+        SharedPreferences.Editor editor = getSharedPreferences("user",MODE_PRIVATE).edit();
+        editor.putString("username",userModel.getUsername());
+        editor.apply();
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+//        SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
+//        String username = sharedPreferences.getString("username","");
+//        Toast.makeText(this,username,Toast.LENGTH_SHORT).show();
+//        Log.d(TAG,username);
     }
 
 
