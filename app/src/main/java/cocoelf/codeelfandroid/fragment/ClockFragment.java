@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.androidannotations.annotations.EFragment;
+
 import cocoelf.codeelfandroid.R;
 
+@EFragment(R.layout.fragment_clock)
 public class ClockFragment extends Fragment {
 
 

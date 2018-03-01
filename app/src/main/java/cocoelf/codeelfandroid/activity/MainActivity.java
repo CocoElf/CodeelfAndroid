@@ -70,6 +70,7 @@ import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
 import cocoelf.codeelfandroid.fragment.AdviceFragment;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
+import cocoelf.codeelfandroid.fragment.MemoFragment_;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
@@ -239,11 +240,11 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ClockFragment());
-        adapter.addFragment(new AdviceFragment());
+        adapter.addFragment(new ClockFragment_());
+        adapter.addFragment(new AdviceFragment_());
         adapter.addFragment(new SearchFragment_());
-        adapter.addFragment(new MemoFragment());
-        adapter.addFragment(new ShareFragment());
+        adapter.addFragment(new MemoFragment_());
+        adapter.addFragment(new ShareFragment_());
         viewPager.setAdapter(adapter);
     }
 
