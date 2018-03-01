@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "cocoelf.codeelfandroid"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -128,8 +128,14 @@ dependencies {
 dependencies {
     compile 'com.microsoft.projectoxford:speechrecognition:1.2.2'
     compile 'com.carlos.voiceline:mylibrary:1.0.6'
-}
-dependencies {
-    implementation 'com.android.support:support-v4:26.+'
+
 }
 
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    compile 'com.microsoft.projectoxford:vision:1.0.394'
+    compile 'com.longsh:OptionFrame:1.0.0'
+
+}

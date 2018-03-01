@@ -18,10 +18,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.carlos.voiceline.mylibrary.VoiceLineView;
+import com.longsh.optionframelibrary.OptionBottomDialog;
+import com.longsh.optionframelibrary.OptionCenterDialog;
 import com.microsoft.cognitiveservices.speechrecognition.ISpeechRecognitionServerEvents;
 import com.microsoft.cognitiveservices.speechrecognition.MicrophoneRecognitionClient;
 import com.microsoft.cognitiveservices.speechrecognition.RecognitionResult;
@@ -29,12 +32,14 @@ import com.microsoft.cognitiveservices.speechrecognition.RecognitionStatus;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionMode;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServiceFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
 import cocoelf.codeelfandroid.fragment.AdviceFragment;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
-import cocoelf.codeelfandroid.fragment.SearchFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
@@ -206,6 +211,18 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.photo) {
+            final ArrayList<String> list = new ArrayList<>();
+            list.add((this.getString(R.string.take_photo)));
+            list.add((this.getString(R.string.select_image_in_album)));
+            final OptionCenterDialog optionCenterDialog = new OptionCenterDialog();
+            optionCenterDialog.show(MainActivity.this, list);
+            optionCenterDialog.setItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    optionCenterDialog.dismiss();
+                }
+            });
+
             return true;
         }
 
