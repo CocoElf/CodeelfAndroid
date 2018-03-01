@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,6 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
     @ViewById(R.id.password_confirm_input)
     EditText passwordConfirmInput;
 
+    @ViewById(R.id.activity_register_hasaccount)
+    TextView toLoginTextView;
+
     @AfterViews
     void init(){
         ActionBar actionBar = getSupportActionBar();
@@ -60,15 +64,21 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @Click(R.id.activity_register_hasaccount)
+    void toLogin(){
+        Intent intent = new Intent(this,LoginActivity_.class);
+        startActivity(intent);
+    }
+
     @Background
     void submit(String username,String password){
         try {
             UserModel userModel = userService.signUp(username, password);
             toLogin(userModel.getUsername(),password);
         }catch (ResponseException e){
-            submitFail(e.getMessage());
+            makeToast(e.getMessage());
         }catch (Exception e){
-            Toast.makeText(this,"请检查网络连接",Toast.LENGTH_SHORT).show();
+            makeToast("请检查网络连接");
         }
     }
 
@@ -81,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @UiThread
-    void submitFail(String message){
+    void makeToast(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 

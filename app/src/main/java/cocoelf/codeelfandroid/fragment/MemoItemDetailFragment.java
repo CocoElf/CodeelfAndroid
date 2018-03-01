@@ -3,11 +3,8 @@ package cocoelf.codeelfandroid.fragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.github.ybq.android.spinkit.SpinKitView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -16,11 +13,10 @@ import org.androidannotations.annotations.ViewById;
 import cocoelf.codeelfandroid.R;
 
 /**
- * Created by shea on 2018/2/27.
+ * Created by shea on 2018/3/1.
  */
-
-@EFragment(R.layout.fragment_search_result_item_detail)
-public class SearchResultItemDetailFragment extends Fragment {
+@EFragment(R.layout.fragment_memo_item_detail)
+public class MemoItemDetailFragment extends Fragment {
     @ViewById(R.id.fragment_search_result_item_detail_content)
     WebView webView;
 

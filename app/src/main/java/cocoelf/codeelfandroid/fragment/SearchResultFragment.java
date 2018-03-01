@@ -23,6 +23,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EFragment;
@@ -64,6 +66,9 @@ public class SearchResultFragment extends Fragment {
     @ViewById(R.id.fragment_search_result_root_layout)
     LinearLayout linearLayout;
 
+    @ViewById(R.id.spin_kit)
+    SpinKitView spinKitView;
+
     @RestService
     SearchService searchService;
 
@@ -71,7 +76,7 @@ public class SearchResultFragment extends Fragment {
     void init(){
         Log.d(TAG, "init: ");
         final Bundle bundle = getArguments();
-
+//        indicator.stop();
         if(bundle!=null&&bundle.containsKey("keyword")){
             String keyword = bundle.getString("keyword");
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user",MODE_PRIVATE);
@@ -93,6 +98,7 @@ public class SearchResultFragment extends Fragment {
         final SearchResultAdapter searchResultAdapter = new SearchResultAdapter(searchResultModelList);
         final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(searchResultAdapter);
         searchResultRecyclerView.setAdapter(loadMoreWrapper);
+        spinKitView.setVisibility(View.GONE);
         //点击跳转到详情页
         searchResultAdapter.setOnItemClickListener(new SearchResultAdapter.OnItemClickListener() {
             @Override

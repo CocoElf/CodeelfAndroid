@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
@@ -35,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     @ViewById(R.id.password_input)
     EditText passwordInput;
 
+    @ViewById(R.id.activity_login_noaccount)
+    TextView toRegisterTextView;
+
     private static final String TAG = "LoginActivity";
 
     @AfterViews
@@ -44,10 +48,12 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.hide();
         }
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
-        String password = intent.getStringExtra("password");
-        usernameInput.setText(username);
-        passwordInput.setText(password);
+        if(intent!=null&&intent.hasExtra("username")){
+            String username = intent.getStringExtra("username");
+            String password = intent.getStringExtra("password");
+            usernameInput.setText(username);
+            passwordInput.setText(password);
+        }
     }
 
     @Click(R.id.login_btn)
@@ -61,15 +67,21 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Click(R.id.activity_login_noaccount)
+    void toRegister(){
+        Intent intent = new Intent(this,RegisterActivity_.class);
+        startActivity(intent);
+    }
+
     @Background
     void submit(String username,String password){
         try{
             UserModel userModel = userService.login(username,password);
             saveLogin(userModel);
         }catch (ResponseException e){
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
+            makeToast(e.getMessage());
         }catch (Exception e){
-            Toast.makeText(this,"请检查网络连接",Toast.LENGTH_SHORT).show();
+            makeToast("请检查网络连接");
         }
     }
 
@@ -84,6 +96,11 @@ public class LoginActivity extends AppCompatActivity {
 //        String username = sharedPreferences.getString("username","");
 //        Toast.makeText(this,username,Toast.LENGTH_SHORT).show();
 //        Log.d(TAG,username);
+    }
+
+    @UiThread
+    void makeToast(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 

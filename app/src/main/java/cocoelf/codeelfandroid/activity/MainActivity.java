@@ -34,6 +34,7 @@ import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
 import cocoelf.codeelfandroid.fragment.AdviceFragment;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
+import cocoelf.codeelfandroid.fragment.MemoFragment_;
 import cocoelf.codeelfandroid.fragment.SearchFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new ClockFragment());
         adapter.addFragment(new AdviceFragment());
         adapter.addFragment(new SearchFragment_());
-        adapter.addFragment(new MemoFragment());
+        adapter.addFragment(new MemoFragment_());
         adapter.addFragment(new ShareFragment());
         viewPager.setAdapter(adapter);
     }

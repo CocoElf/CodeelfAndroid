@@ -129,4 +129,8 @@ public class LoadMoreWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.loadState = loadState;
         notifyDataSetChanged();
     }
+
+    public int getLoadState() {
+        return loadState;
+    }
 }

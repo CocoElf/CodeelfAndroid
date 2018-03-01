@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#fff"
     tools:context="cocoelf.codeelfandroid.fragment.SearchResultItemDetailFragment">
+
     <WebView
         android:id="@+id/fragment_search_result_item_detail_content"
         android:layout_width="match_parent"
