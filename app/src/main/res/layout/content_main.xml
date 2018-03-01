@@ -52,6 +52,4 @@
         app:borderWidth="0dp"
         app:elevation="9dp"/>
 
-
-
 </RelativeLayout>
