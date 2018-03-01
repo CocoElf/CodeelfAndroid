@@ -32,14 +32,8 @@
         <activity android:name=".activity.RegisterActivity_" />
         <activity android:name=".activity.LoginActivity_"></activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.MainActivity_"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity
-            android:name=".activity.ImgDemoActivity_"
-            android:label="@string/title_activity_img_demo"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

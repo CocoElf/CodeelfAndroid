@@ -1,13 +1,20 @@
 package cocoelf.codeelfandroid.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -20,9 +27,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.carlos.voiceline.mylibrary.VoiceLineView;
+import com.google.gson.Gson;
 import com.longsh.optionframelibrary.OptionBottomDialog;
 import com.longsh.optionframelibrary.OptionCenterDialog;
 import com.microsoft.cognitiveservices.speechrecognition.ISpeechRecognitionServerEvents;
@@ -31,11 +40,32 @@ import com.microsoft.cognitiveservices.speechrecognition.RecognitionResult;
 import com.microsoft.cognitiveservices.speechrecognition.RecognitionStatus;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionMode;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServiceFactory;
+import com.microsoft.projectoxford.vision.VisionServiceClient;
+import com.microsoft.projectoxford.vision.VisionServiceRestClient;
+import com.microsoft.projectoxford.vision.contract.LanguageCodes;
+import com.microsoft.projectoxford.vision.contract.Line;
+import com.microsoft.projectoxford.vision.contract.OCR;
+import com.microsoft.projectoxford.vision.contract.Region;
+import com.microsoft.projectoxford.vision.contract.Word;
+import com.microsoft.projectoxford.vision.rest.VisionServiceException;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.ZLoadingView;
+import com.zyao89.view.zloading.Z_TYPE;
 
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.rest.spring.annotations.RestService;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cocoelf.codeelfandroid.R;
+import cocoelf.codeelfandroid.activity.helper.ImageHelper;
 import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
 import cocoelf.codeelfandroid.fragment.AdviceFragment;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
@@ -43,14 +73,32 @@ import cocoelf.codeelfandroid.fragment.MemoFragment;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
+import cocoelf.codeelfandroid.service.SearchService;
 
+@EActivity
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,ISpeechRecognitionServerEvents {
-    MicrophoneRecognitionClient micClient = null;
+        implements NavigationView.OnNavigationItemSelectedListener, ISpeechRecognitionServerEvents {
+    MicrophoneRecognitionClient micClient = null;//语音客户端
     private ViewPager viewPager;
     private MenuItem menuItem;
     private BottomNavigationView bottomNavigationView;
-    String sPrev="";
+    String sPrev = "";
+    ZLoadingDialog dialog;
+
+    private VisionServiceClient client;//图像客户端
+    private static final int REQUEST_TAKE_PHOTO = 0;
+    private static final int REQUEST_SELECT_IMAGE_IN_ALBUM = 1;
+    // The URI of photo taken from gallery
+    private Uri mUriPhotoTaken;
+    // File of the photo taken with camera
+    private File mFilePhotoTaken;
+    // The URI of the image selected to detect.
+    private Uri mImageUri;
+    // The image selected to detect.
+    private Bitmap mBitmap;
+
+    @RestService
+    SearchService searchService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,24 +107,27 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //加载动画
+        dialog = new ZLoadingDialog(MainActivity.this);
+        dialog.setLoadingBuilder(Z_TYPE.STAR_LOADING).setHintText("Loading...");
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        initBottomNavigationView();
+        initBottomNavigationView(); //底部导航
         initViewpager();
         setupViewPager(viewPager);
         setInitPage();
 //        initMicClient();
-
+        initVisionServiceClient();
     }
 
-    private void initBottomNavigationView(){
+    private void initBottomNavigationView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         //默认 >3 的选中效果会影响ViewPager的滑动切换时的效果，故利用反射去掉
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -84,6 +135,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     private int previousPosition = -1;
+
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         int position = 0;
@@ -116,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void initViewpager(){
+    private void initViewpager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -157,10 +209,20 @@ public class MainActivity extends AppCompatActivity
         }
         micClient.startMicAndRecognition();
     }
+
+    /**
+     * 初始化图像客户端
+     */
+    private void initVisionServiceClient() {
+        if (client == null) {
+            client = new VisionServiceRestClient(getString(R.string.subscription_key), getString(R.string.subscription_apiroot));
+        }
+    }
+
     /**
      * 弹出所有的fragment
      */
-    private void popAll(){
+    private void popAll() {
         int num = getSupportFragmentManager().getBackStackEntryCount();
         for (int i = 0; i < num; i++) {
             getSupportFragmentManager().popBackStack();
@@ -170,7 +232,7 @@ public class MainActivity extends AppCompatActivity
     /*
      *设置初始默认页面
      */
-    private void setInitPage(){
+    private void setInitPage() {
         bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(2).getItemId());
         viewPager.setCurrentItem(2);
     }
@@ -219,6 +281,11 @@ public class MainActivity extends AppCompatActivity
             optionCenterDialog.setItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (id == 0) {
+                        takePhoto(view);
+                    } else if (id == 1) {
+                        selectImageInAlbum(view);
+                    }
                     optionCenterDialog.dismiss();
                 }
             });
@@ -255,7 +322,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //以下是语音部分
+    /**
+     * 以下是语音部分
+     */
     @Override
     public void onPartialResponseReceived(String s) {
 
@@ -269,28 +338,18 @@ public class MainActivity extends AppCompatActivity
 
         int max = 0;
 
-        if(response.Results.length>0){
+        if (response.Results.length > 0) {
             String s = response.Results[0].DisplayText;
 
-            if(sPrev.equals("小精灵")){
-                sPrev="";
+            if (sPrev.equals("小精灵")) {
+                sPrev = "";
                 viewPager.setCurrentItem(2, false);
                 search(s);
-            } else if (s.equals("小精灵")){
-                sPrev=s;
+            } else if (s.equals("小精灵")) {
+                sPrev = s;
             }
         }
 
-    }
-
-    private void search(String keyword){
-        Fragment fragment=new SearchResultFragment_();
-        Bundle bundle=new Bundle();
-        bundle.putString("keyword",keyword);
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .addToBackStack(null)  //将当前fragment加入到返回栈中
-                .replace(R.id.fragment_container, fragment).commit();
     }
 
     /**
@@ -318,4 +377,147 @@ public class MainActivity extends AppCompatActivity
     public void onAudioEvent(boolean recording) {
     }
 
+
+    /**
+     * 以下是图像部分
+     */
+    // When the button of "Take a Photo with Camera" is pressed.
+    public void takePhoto(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Save the photo taken to a temporary file.
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                mFilePhotoTaken = File.createTempFile(
+                        "IMG_",  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
+
+                // Create the File where the photo should go
+                // Continue only if the File was successfully created
+                if (mFilePhotoTaken != null) {
+                    mUriPhotoTaken = FileProvider.getUriForFile(this,
+                            "cocoelf.codeelfandroid.fileprovider",
+                            mFilePhotoTaken);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mUriPhotoTaken);
+
+                    // Finally start camera activity
+                    startActivityForResult(intent, REQUEST_TAKE_PHOTO);
+                }
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "拍照错误：" + e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    // When the button of "Select a Photo in Album" is pressed.
+    public void selectImageInAlbum(View view) {
+        Intent intent = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // 打开手机相册,设置请求码
+        startActivityForResult(intent, REQUEST_SELECT_IMAGE_IN_ALBUM);
+    }
+
+    // Deal with the result of selection of the photos and faces.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    mImageUri = Uri.fromFile(mFilePhotoTaken);
+                }
+                break;
+            case REQUEST_SELECT_IMAGE_IN_ALBUM:
+                if (resultCode == RESULT_OK) {
+                    if (data == null || data.getData() == null) {
+                        mImageUri = mUriPhotoTaken;
+                    } else {
+                        mImageUri = data.getData();
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        mBitmap = ImageHelper.loadSizeLimitedBitmapFromUri(mImageUri, getContentResolver());
+        if (mBitmap != null) {
+            // Add detection log.
+            Log.d("AnalyzeActivity", "Image: " + mImageUri + " resized to " + mBitmap.getWidth()
+                    + "x" + mBitmap.getHeight());
+
+            doRecognize();
+        }
+    }
+
+
+    public void doRecognize() {
+        try {
+            dialog.show();
+            process();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "识别错误：" + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
+            ;
+        }
+    }
+
+    //图像解析成文字
+    @Background
+    public void process() {
+        String excetionMessage = null;
+        String result = "";
+        try {
+
+            // Put the image into an input stream for detection.
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(output.toByteArray());
+
+            //获取解析结果
+            OCR ocr;
+            ocr = this.client.recognizeText(inputStream, LanguageCodes.ChineseSimplified, true);
+
+            //获取用户名
+            SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+            String username = sharedPreferences.getString("username", "");
+            result = searchService.imgToWord(ocr, username).getKeyword();
+            Log.d("result", result);
+        } catch (VisionServiceException e) {
+           excetionMessage="识别出错！";
+        } catch (IOException e) {
+            excetionMessage="识别出错！";
+        } catch (Exception e){
+            excetionMessage="网络出错！";
+            e.printStackTrace();
+        }
+        Log.d("result", result);
+        onPostExecute(result, excetionMessage);
+    }
+
+    @UiThread
+    public void onPostExecute(String data, String exceptionMessage) {
+        // Display based on error existence
+        if (exceptionMessage != null) {
+            dialog.dismiss();
+            Toast.makeText(getApplicationContext(), "错误：" + exceptionMessage,
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            search(data);
+            dialog.dismiss();
+        }
+    }
+
+    //跳到搜索界面
+    private void search(String keyword) {
+        Fragment fragment = new SearchResultFragment_();
+        Bundle bundle = new Bundle();
+        bundle.putString("keyword", keyword);
+        fragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)  //将当前fragment加入到返回栈中
+                .replace(R.id.fragment_container, fragment).commit();
+    }
 }

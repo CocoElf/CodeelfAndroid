@@ -36,6 +36,7 @@
 
     <string name="take_photo">拍摄照片</string>
     <string name="select_image_in_album">从相册中选择</string>
+    <string name="wait">正在努力加载中，请稍等...</string>
 
     <string name="search_sample_input">查询c++的abs函数\n查询工厂模式\nArraylist和linkedlist的区别\n如何在python中计算微积分\n......</string>
     <string name="title_activity_img_demo">ImgDemoActivity</string>

@@ -137,5 +137,5 @@ dependencies {
 dependencies {
     compile 'com.microsoft.projectoxford:vision:1.0.394'
     compile 'com.longsh:OptionFrame:1.0.0'
-
+    compile 'com.zyao89:zloading:1.0.8'
 }
