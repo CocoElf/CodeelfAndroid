@@ -1,69 +1,70 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clock_back"
-    tools:context="cocoelf.codeelfandroid.fragment.ClockFragment">
+    tools:context="cocoelf.codeelfandroid.activity.TimerActivity">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_message"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:background="@drawable/btleft"
+                android:background="@drawable/leftbt"
                 android:gravity="center"
                 android:padding="0dp"
                 android:text="工作"
-                android:textColor="#fff"
-                android:textSize="14sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
 
 
             <Button
                 android:id="@+id/btn_call"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
-                android:background="@drawable/btright"
+                android:background="@drawable/rightbt"
                 android:gravity="center"
                 android:padding="0dp"
                 android:text="任务"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#ffffff"
                 android:textSize="14sp" />
-
 
         </LinearLayout>
 
         <com.thinkcool.circletextimageview.CircleTextImageView
-            android:id="@+id/show_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="75dp"
             app:citv_border_color="@color/trans_white"
             app:citv_border_width="7dp"
             app:citv_fill_color="@android:color/transparent"
             app:citv_text_color="@android:color/white"
             app:citv_text_padding="80dp"
             app:citv_text_size="35sp"
-            app:citv_text_text="00:00:00" />
+            app:citv_text_text="02:30:29" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginTop="70dp"
-
+            android:layout_marginTop="50dp"
 
             android:background="@android:color/transparent"
             android:src="@drawable/ic_pause_circle_outline_black_24dp"
@@ -71,20 +72,5 @@
             app:elevation="0dp"
             app:rippleColor="@android:color/white" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_marginTop="70dp"
-            android:visibility="gone"
-
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_play_circle_outline_black_24dp"
-            app:backgroundTint="@android:color/transparent"
-            app:elevation="0dp"
-            app:rippleColor="@android:color/white" />
-
     </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

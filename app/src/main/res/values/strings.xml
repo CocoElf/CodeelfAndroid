@@ -9,7 +9,7 @@
     <string name="advice_fragment">建议</string>
     <string name="share_fragment">分享</string>
 
-    <string name="title_activity_main"></string>
+    <string name="title_activity_main">Code Elf</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

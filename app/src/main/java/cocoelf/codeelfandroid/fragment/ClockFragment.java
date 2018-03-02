@@ -1,40 +1,127 @@
 package cocoelf.codeelfandroid.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.thinkcool.circletextimageview.CircleTextImageView;
+
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 
 import cocoelf.codeelfandroid.R;
+import cocoelf.codeelfandroid.service.TimerService;
 
-@EFragment(R.layout.fragment_clock)
+@EFragment
 public class ClockFragment extends Fragment {
 
+    public static final String CLOCK_ACTION = "cocoelf.codeelfandroid.service.TimerService";
+    private long time = 0;
+
+    private CircleTextImageView circleTextImageView;
 
     public ClockFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static ClockFragment newInstance(String param1, String param2) {
-        ClockFragment fragment = new ClockFragment();
-        Bundle args = new Bundle();
-        args.putString("p1", param1);
-        args.putString("p2", param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        regReceiver();//注册广播
+
+    }
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_clock, container, false);
+        return  inflater.inflate(R.layout.fragment_clock, container, false);
     }
+
+    @Override
+    public void onActivityCreated(Bundle bundle) {
+        super.onActivityCreated(bundle);
+        circleTextImageView=getActivity().findViewById(R.id.show_time);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(clockReceiver);
+    }
+
+    public void regReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CLOCK_ACTION);
+        getActivity().registerReceiver(clockReceiver, intentFilter);
+    }
+
+    /**
+     * 广播接受者，接受来自ClockService（计时服务）的广播，ClockService每隔一秒
+     * 钟发一次广播
+     */
+
+    private BroadcastReceiver clockReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            time=intent.getLongExtra("time",time);
+            changeTime(time);//改变TextView中的显示时间
+        }
+    };
+
+    //通过发送广播，控制计时服务
+    //继续计时
+    @Click(R.id.play)
+    public void restart(View view){
+        getActivity().findViewById(R.id.play).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.pause).setVisibility(View.VISIBLE);
+        Intent intent=new Intent();
+        intent.setAction(TimerService.CLOCK_SERVICE_ACTION);
+        intent.putExtra("method", "continue");
+        getActivity().sendBroadcast(intent);
+    }
+
+    //通过发送广播，控制计时服务
+    //暂停计时
+    @Click(R.id.pause)
+    public void pause(View view){
+        getActivity().findViewById(R.id.pause).setVisibility(View.GONE);
+        getActivity().findViewById(R.id.play).setVisibility(View.VISIBLE);
+        Intent intent=new Intent();
+        intent.setAction(TimerService.CLOCK_SERVICE_ACTION);
+        intent.putExtra("method","pause");
+        getActivity().sendBroadcast(intent);
+    }
+
+    private void changeTime(long time) {
+        String stime = "";
+
+
+        int hour = (int) (time / (60 * 60));
+        int minute = (int) (time % (60 * 60) / (60));
+        int second = (int) ((time % (60 * 60)) % 60);
+        String shour = "" + hour, sminute = "" + minute, ssecond = "" + second;
+        if (hour <= 9) {
+            shour = "0" + hour;
+        }
+        if (minute <= 9) {
+            sminute = "0" + minute;
+        }
+        if (second <= 9) {
+            ssecond = "0" + second;
+        }
+        stime = shour + ":" + sminute + ":" + ssecond;
+        circleTextImageView.setText(stime);
+    }
+
 
 }

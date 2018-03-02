@@ -1,0 +1,49 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cocoelf.codeelfandroid.fragment.TaskFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_message"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/leftbt"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="工作"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
+
+
+            <Button
+                android:id="@+id/btn_call"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rightbt"
+                android:gravity="center"
+                android:padding="0dp"
+                android:text="任务"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</FrameLayout>
