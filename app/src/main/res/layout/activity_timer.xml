@@ -4,73 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clock_back"
+    android:background="@drawable/back2"
     tools:context="cocoelf.codeelfandroid.activity.TimerActivity">
 
-
     <LinearLayout
+        android:orientation="vertical"
+        android:gravity="bottom|center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/rest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-80dp"
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+        android:text="休息一下"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:autoLink="all"/>
+
+        <Button
+            android:id="@+id/rest_back"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/stop_rest"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_message"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@drawable/leftbt"
-                android:gravity="center"
-                android:padding="0dp"
-                android:text="工作"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18sp" />
-
-
-            <Button
-                android:id="@+id/btn_call"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rightbt"
-                android:gravity="center"
-                android:padding="0dp"
-                android:text="任务"
-                android:textColor="#ffffff"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <com.thinkcool.circletextimageview.CircleTextImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center"
-            android:layout_marginTop="75dp"
-            app:citv_border_color="@color/trans_white"
-            app:citv_border_width="7dp"
-            app:citv_fill_color="@android:color/transparent"
-            app:citv_text_color="@android:color/white"
-            app:citv_text_padding="80dp"
-            app:citv_text_size="35sp"
-            app:citv_text_text="02:30:29" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_marginTop="50dp"
-
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_pause_circle_outline_black_24dp"
-            app:backgroundTint="@android:color/transparent"
-            app:elevation="0dp"
-            app:rippleColor="@android:color/white" />
-
+            android:text="继续工作"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>
