@@ -27,7 +27,9 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -106,27 +108,29 @@ public class MemoFragment extends Fragment {
             }
         });
         // 设置加载更多监听
-        memoRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
-            @Override
-            public void onLoadMore() {
-                if(loadMoreWrapper.getLoadState()!=loadMoreWrapper.LOADING_END){
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
-                    presentPage ++;
-                    getMemos(presentPage,username);
-                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                }
-            }
-        });
+//        memoRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+//            @Override
+//            public void onLoadMore() {
+//                if(loadMoreWrapper.getLoadState()!=loadMoreWrapper.LOADING_END){
+//                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
+//                    presentPage ++;
+//                    getMemos(presentPage,username);
+//                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
+//                }
+//            }
+//        });
     }
 
     @Background
     void getMemos(int pageNum,String username){
         List<MemoModel> result = new ArrayList<>();
         for(int i=0;i<PAGE_SIZE;i++){
-            String keyword = "how to draw a polygon fabricjs";
+//            String keyword = "how to draw a polygon fabricjs";
             String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
             String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
-            MemoModel memoModel = new MemoModel(name+i,snippet+i,"url"+i,keyword+i,new Date(System.currentTimeMillis()),i);
+            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
+            String type = i%2==0?"API":"功能查询";
+            MemoModel memoModel = new MemoModel(name,"",snippet,new Date(),keywords,type+i,i);
             result.add(memoModel);
         }
         setMemoModelList(result);

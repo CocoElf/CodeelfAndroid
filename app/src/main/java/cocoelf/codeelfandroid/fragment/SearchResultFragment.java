@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.rest.spring.annotations.RestService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,7 +64,7 @@ public class SearchResultFragment extends Fragment {
     RecyclerView searchResultRecyclerView;
 
     @ViewById(R.id.fragment_search_result_search)
-    cocoelf.codeelfandroid.component.SearchView searchView;
+    EditText searchView;
 
     @ViewById(R.id.fragment_search_result_root_layout)
     LinearLayout linearLayout;
@@ -165,18 +168,28 @@ public class SearchResultFragment extends Fragment {
         });
     }
 
-    @Background
+//    @Background
     void getSearchResults(String keyword,String username){
-
-        try {
-            List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
-            Log.d(TAG, "getSearchResults: "+resultModelList.size());
-            setSearchResultModelList(resultModelList);
-        }catch (ResponseException e){
-            Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
-            Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
+        List<SearchResultModel> searchResultModels = new ArrayList<>();
+        for(int i=0;i<20;i++){
+            String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
+            String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
+            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
+            String type = i%2==0?"API":"功能查询";
+            SearchResultModel searchResultModel = new SearchResultModel(name,"https://www.jianshu.com/p/3baddcf948af",snippet,new Date(),keywords,type+i);
+            searchResultModels.add(searchResultModel);
         }
+        setSearchResultModelList(searchResultModels);
+
+//        try {
+//            List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
+//            Log.d(TAG, "getSearchResults: "+resultModelList.size());
+//            setSearchResultModelList(resultModelList);
+//        }catch (ResponseException e){
+//            Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
+//        }catch (Exception e){
+//            Toast.makeText(getActivity(),"请检查网络连接",Toast.LENGTH_SHORT).show();
+//        }
     }
 
 }

@@ -1,14 +1,21 @@
 package cocoelf.codeelfandroid.adapter;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import cocoelf.codeelfandroid.R;
+import cocoelf.codeelfandroid.json.MemoModel;
 import cocoelf.codeelfandroid.json.SearchResultModel;
 
 /**
@@ -44,8 +51,27 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SearchResultModel searchResultModel = searchResultModelList.get(position);
-        holder.searchResultItemName.setText(searchResultModel.getName());
-        holder.searchResultItemSnippet.setText(searchResultModel.getSnippet());
+        SpannableString string = new SpannableString(searchResultModel.getTitle());
+        string.setSpan(new ForegroundColorSpan(Color.parseColor("#F55D54")),0,searchResultModel.getType().length()+2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.searchResultItemName.setText(string);
+        SpannableString das = new SpannableString(searchResultModel.getFormatDate()+" - "+searchResultModel.getSnippet());
+        das.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")),0,searchResultModel.getFormatDate().length()+3,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.searchResultItemDateAndSnippet.setText(das);
+        if(holder.searchResultItemKeywordPart.getChildCount()==0){
+            Context context = holder.searchResultItemKeywordPart.getContext();
+            for (String keyword:searchResultModel.getKeywords()) {
+                TextView textView = new TextView(context);
+                textView.setText(keyword);
+                textView.setTextSize(12);
+                textView.setTextColor(Color.parseColor("#FFBA69"));
+                textView.setBackgroundColor(Color.parseColor("#eeeeee"));
+                textView.setPadding(24,4,24,14);
+                holder.searchResultItemKeywordPart.addView(textView);
+                TextView margin = new TextView(context);
+                margin.setText("    ");
+                holder.searchResultItemKeywordPart.addView(margin);
+            }
+        }
         //将position保存在itemView的Tag中，以便点击时进行获取
         holder.itemView.setTag(position);
     }
@@ -68,12 +94,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView searchResultItemName;
-        TextView searchResultItemSnippet;
+        TextView searchResultItemDateAndSnippet;
+        LinearLayout searchResultItemKeywordPart;
 
         public ViewHolder(View itemView) {
             super(itemView);
             searchResultItemName = (TextView)itemView.findViewById(R.id.fragment_search_result_item_name);
-            searchResultItemSnippet = (TextView)itemView.findViewById(R.id.fragment_search_result_item_snippet);
+            searchResultItemDateAndSnippet = (TextView)itemView.findViewById(R.id.fragment_search_result_item_date_and_snippet);
+            searchResultItemKeywordPart = (LinearLayout)itemView.findViewById(R.id.fragment_search_result_item_keyword_part);
         }
     }
 

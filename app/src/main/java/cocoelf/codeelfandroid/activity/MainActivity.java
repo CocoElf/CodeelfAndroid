@@ -68,12 +68,15 @@ import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.activity.helper.ImageHelper;
 import cocoelf.codeelfandroid.adapter.ViewPagerAdapter;
 import cocoelf.codeelfandroid.fragment.AdviceFragment;
+import cocoelf.codeelfandroid.fragment.AdviceFragment_;
 import cocoelf.codeelfandroid.fragment.ClockFragment;
+import cocoelf.codeelfandroid.fragment.ClockFragment_;
 import cocoelf.codeelfandroid.fragment.MemoFragment;
 import cocoelf.codeelfandroid.fragment.MemoFragment_;
 import cocoelf.codeelfandroid.fragment.SearchFragment_;
 import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
+import cocoelf.codeelfandroid.fragment.ShareFragment_;
 import cocoelf.codeelfandroid.service.SearchService;
 
 @EActivity

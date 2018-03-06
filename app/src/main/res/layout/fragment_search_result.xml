@@ -9,10 +9,36 @@
     android:background="#f4f4f4"
     tools:context="cocoelf.codeelfandroid.fragment.SearchResultItemFragment">
 
-    <cocoelf.codeelfandroid.component.SearchView
-        android:id="@+id/fragment_search_result_search"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="输入你想查询的"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/fragment_search_result_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="查询windows的azure认知服务api"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingTop="20dp"
+            android:singleLine="true"
+            android:textColor="#333"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!--<cocoelf.codeelfandroid.component.SearchView-->
+        <!--android:id="@+id/fragment_search_result_search"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
     <com.github.ybq.android.spinkit.SpinKitView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/spin_kit"
