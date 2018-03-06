@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -18,7 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="cocoelf.codeelfandroid.fileprovider"
@@ -26,11 +26,21 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
+        <service
+            android:enabled="true"
+            android:exported="false"
+            android:name="cocoelf.codeelfandroid.service.TimerService_" >
+            <intent-filter>
+                <action android:name="cocoelf.codeelfandroid.service.TimerService" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".receiver.AlarmReceiver" >
+        </receiver>
         <activity android:name=".activity.RegisterActivity_" />
-        <activity android:name=".activity.LoginActivity_"></activity>
+        <activity android:name=".activity.LoginActivity_" />
         <activity
             android:name=".activity.MainActivity_"
             android:label="@string/title_activity_main"
@@ -40,6 +50,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".activity.TimerActivity_"
+            android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
     </application>
 

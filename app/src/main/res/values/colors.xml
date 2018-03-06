@@ -6,4 +6,6 @@
     <color name="tab_unchecked">#FF000000</color>
     <color name="tab_checked">#1AA8F2</color>
     <color name="back">#fff</color>
+    <color name="trans_white">#80FFFFFF</color>
+    <color name="clock_back">#51A8DD</color>
 </resources>

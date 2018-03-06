@@ -78,6 +78,8 @@ import cocoelf.codeelfandroid.fragment.SearchResultFragment_;
 import cocoelf.codeelfandroid.fragment.ShareFragment;
 import cocoelf.codeelfandroid.fragment.ShareFragment_;
 import cocoelf.codeelfandroid.service.SearchService;
+import cocoelf.codeelfandroid.service.TimerService;
+import cocoelf.codeelfandroid.service.TimerService_;
 
 @EActivity
 public class MainActivity extends AppCompatActivity
@@ -129,7 +131,25 @@ public class MainActivity extends AppCompatActivity
         setInitPage();
 //        initMicClient();
         initVisionServiceClient();
+        initTimeService();
     }
+
+    //APP开始计时
+    private void initTimeService() {
+        this.startService(new Intent(this, TimerService_.class));//启动计时服务
+
+    }
+
+    //APP结束计时
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent=new Intent();
+        intent.setAction(TimerService.CLOCK_SERVICE_ACTION);
+        intent.putExtra("method", "stop");
+        sendBroadcast(intent);
+    }
+
 
     private void initBottomNavigationView() {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -490,11 +510,11 @@ public class MainActivity extends AppCompatActivity
             result = searchService.imgToWord(ocr, username).getKeyword();
             Log.d("result", result);
         } catch (VisionServiceException e) {
-           excetionMessage="识别出错！";
+            excetionMessage = "识别出错！";
         } catch (IOException e) {
-            excetionMessage="识别出错！";
-        } catch (Exception e){
-            excetionMessage="网络出错！";
+            excetionMessage = "识别出错！";
+        } catch (Exception e) {
+            excetionMessage = "网络出错！";
             e.printStackTrace();
         }
         Log.d("result", result);
@@ -524,4 +544,5 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack(null)  //将当前fragment加入到返回栈中
                 .replace(R.id.fragment_container, fragment).commit();
     }
+
 }

@@ -135,7 +135,14 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
+dependencies {
+    implementation 'com.android.support:support-v4:26.+'
+}
+dependencies {
     compile 'com.microsoft.projectoxford:vision:1.0.394'
     compile 'com.longsh:OptionFrame:1.0.0'
     compile 'com.zyao89:zloading:1.0.8'
+    compile 'com.github.thinkcool:circletextimageview:1.0.20151218'
 }
