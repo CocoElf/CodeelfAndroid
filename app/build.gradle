@@ -145,4 +145,5 @@ dependencies {
     compile 'com.longsh:OptionFrame:1.0.0'
     compile 'com.zyao89:zloading:1.0.8'
     compile 'com.github.thinkcool:circletextimageview:1.0.20151218'
+    compile 'com.dou361.dialogui:jjdxm-dialogui:1.0.1'
 }

@@ -93,11 +93,11 @@ public class TimerService extends Service {
     //实现提醒休息
     public void initAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        //此处是设置每隔90分钟启动一次
-        //这是90分钟的毫秒数
-//        int Minutes = 120*60*1000;
+        //此处是设置每隔两个小时启动一次
+        //这是两个小时的毫秒数
+        int Minutes = 120*60*1000;
 
-        int Minutes = 60 * 1000;
+//        int Minutes = 10 * 1000;
         //SystemClock.elapsedRealtime()表示1970年1月1日0点至今所经历的时间
         long triggerAtTime = SystemClock.elapsedRealtime() + Minutes;
         //此处设置开启AlarmReceiver这个Service

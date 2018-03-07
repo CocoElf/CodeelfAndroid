@@ -1,5 +1,6 @@
 package cocoelf.codeelfandroid.fragment;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ public class ClockFragment extends Fragment {
     public static final String CLOCK_ACTION = "cocoelf.codeelfandroid.service.TimerService";
     private long time = 0;
 
+    private Bundle taskBundle=new Bundle();
     private CircleTextImageView circleTextImageView;
 
     public ClockFragment() {
@@ -101,6 +103,30 @@ public class ClockFragment extends Fragment {
         intent.putExtra("method","pause");
         getActivity().sendBroadcast(intent);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK){
+            return;
+        }else{
+             taskBundle = data.getExtras();
+            String s=taskBundle.getString("s");
+            Log.e("work",s);
+        }
+    }
+
+    //转到任务页面
+    @Click(R.id.work_task)
+    public void changeToTask(){
+        Fragment fragment=new TaskFragment_();
+        fragment.setArguments(taskBundle);
+        fragment.setTargetFragment(ClockFragment.this, 0);
+        getFragmentManager().beginTransaction()
+                .addToBackStack(null)  //将当前fragment加入到返回栈中
+                .replace(R.id.fragment_container, fragment).commit();
+    }
+
 
     private void changeTime(long time) {
         String stime = "";

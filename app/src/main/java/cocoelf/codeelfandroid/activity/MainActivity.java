@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the Home/Up button_begin, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity
     /**
      * 以下是图像部分
      */
-    // When the button of "Take a Photo with Camera" is pressed.
+    // When the button_begin of "Take a Photo with Camera" is pressed.
     public void takePhoto(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -436,7 +436,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    // When the button of "Select a Photo in Album" is pressed.
+    // When the button_begin of "Select a Photo in Album" is pressed.
     public void selectImageInAlbum(View view) {
         Intent intent = new Intent(
                 Intent.ACTION_PICK,

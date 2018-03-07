@@ -18,7 +18,7 @@
             android:layout_marginTop="40dp"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/btn_message"
+                android:id="@+id/work_work"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:background="@drawable/btleft"
@@ -30,7 +30,7 @@
 
 
             <Button
-                android:id="@+id/btn_call"
+                android:id="@+id/work_task"
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:background="@drawable/btright"
