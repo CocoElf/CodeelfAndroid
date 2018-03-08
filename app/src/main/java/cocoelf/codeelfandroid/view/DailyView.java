@@ -41,7 +41,7 @@ public class DailyView extends View {
     /**默认的padding,绘制的时候不贴边画**/
     private int padding = 60;
     /**小方格的默认边长**/
-    private int boxSide = 20;
+    private int boxSide = 12;
     /**小方格间的默认间隔**/
     private int boxInterval = 2;
     /**所有周的列数**/

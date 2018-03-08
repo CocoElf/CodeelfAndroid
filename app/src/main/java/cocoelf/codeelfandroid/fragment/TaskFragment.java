@@ -31,6 +31,7 @@ import java.util.TimerTask;
 
 import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.adapter.ExpandablelistAdapter;
+import cocoelf.codeelfandroid.view.DailyView;
 
 @EFragment
 public class TaskFragment extends Fragment {
@@ -48,6 +49,7 @@ public class TaskFragment extends Fragment {
     private static int period = 1000; //1s
     View childView;
     View parentView;
+    DailyView dailyView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,7 +62,21 @@ public class TaskFragment extends Fragment {
         listView = (ExpandableListView) view.findViewById(R.id.task_list);
         initHandler();
         initExpandableListView();
+        dailyView=(DailyView)view.findViewById(R.id.cc_chart) ;
+        initDailyView();
         return view;
+    }
+
+
+    protected void initDailyView() {
+        dailyView.setData(2018, 12, 9, 2);
+        dailyView.setData(2018, 11, 9, 1);
+        dailyView.setData(2018, 10, 5, 10);
+        dailyView.setData(2018, 8, 9, 3);
+        dailyView.setData(2018, 4, 20, 2);
+        dailyView.setData(2018, 12, 13, 3);
+        dailyView.setData(2018, 12, 14, 3);
+        dailyView.setData(2018, 2, 15, 4);
     }
 
     public void initHandler(){
@@ -98,8 +114,8 @@ public class TaskFragment extends Fragment {
     }
 
     public void  initExpandableListView(){
-        parents.add("编码");parents.add("测试");
-        children.add("00:00:00");children.add("00:00:00");
+        parents.add("编码");parents.add("测试");parents.add("调试");
+        children.add("00:00:00");children.add("00:00:00");children.add("00:00:00");
         final ExpandablelistAdapter adapter = new ExpandablelistAdapter(parents,children);
         listView.setAdapter(adapter);
 
@@ -141,6 +157,8 @@ public class TaskFragment extends Fragment {
                 children.add("00:00:00");
                 ExpandablelistAdapter adapter = new ExpandablelistAdapter(parents,children);
                 listView.setAdapter(adapter);
+                dailyView.requestLayout();
+
             }
         }).show();
     }
