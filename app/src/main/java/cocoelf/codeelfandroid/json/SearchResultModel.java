@@ -62,9 +62,9 @@ public class SearchResultModel implements Serializable{
         this.dateLastCrawled = dateLastCrawled;
     }
 
-    public String getFormatDate() {
-        return new SimpleDateFormat("yyyy/MM/ss").format(dateLastCrawled);
-    }
+//    public String getFormatDate() {
+//        return new SimpleDateFormat("yyyy/MM/ss").format(dateLastCrawled);
+//    }
 
     public List<String> getKeywords() {
         return keywords;

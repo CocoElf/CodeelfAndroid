@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import cocoelf.codeelfandroid.R;
@@ -48,14 +50,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return viewHolder;
     }
 
+    private String getTitle(String type,String name){
+        String temp = "["+type+"]  "+name;
+        if(temp.length()>44){
+            return temp.substring(0,44);
+        }else {
+            return temp;
+        }
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SearchResultModel searchResultModel = searchResultModelList.get(position);
-        SpannableString string = new SpannableString(searchResultModel.getName());
+        SpannableString string = new SpannableString(getTitle(searchResultModel.getType(),searchResultModel.getName()));
         string.setSpan(new ForegroundColorSpan(Color.parseColor("#F55D54")),0,searchResultModel.getType().length()+2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.searchResultItemName.setText(string);
-        SpannableString das = new SpannableString(searchResultModel.getFormatDate()+" - "+searchResultModel.getSnippet());
-        das.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")),0,searchResultModel.getFormatDate().length()+3,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        String fDate = formatDate(searchResultModel.getDateLastCrawled());
+        SpannableString das = new SpannableString(fDate+" - "+searchResultModel.getSnippet());
+        das.setSpan(new ForegroundColorSpan(Color.parseColor("#333333")),0,fDate.length()+3,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.searchResultItemDateAndSnippet.setText(das);
         if(holder.searchResultItemKeywordPart.getChildCount()==0){
             Context context = holder.searchResultItemKeywordPart.getContext();
@@ -74,6 +86,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         }
         //将position保存在itemView的Tag中，以便点击时进行获取
         holder.itemView.setTag(position);
+    }
+
+    private String formatDate(Date date){
+        return new SimpleDateFormat("yyyy/MM/ss").format(date);
     }
 
     //获取数据的数量

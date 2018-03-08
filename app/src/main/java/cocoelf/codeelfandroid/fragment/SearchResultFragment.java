@@ -87,86 +87,86 @@ public class SearchResultFragment extends Fragment {
             String username = sharedPreferences.getString("username","");
             getSearchResults(keyword,"shea");
         }else {
-//            setSearchResultModelList(new ArrayList<SearchResultModel>());
+            setSearchResultModelList(new ArrayList<SearchResultModel>());
         }
     }
 
-//    @UiThread
-//    void setSearchResultModelList(List<SearchResultModel> resultModelList){
-//        searchResultModelList = new ArrayList<>();
-//        searchResultModelList.addAll(resultModelList);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-//        searchResultRecyclerView.setLayoutManager(linearLayoutManager);
-//        Log.d(TAG, "setSearchResultModelList: "+searchResultModelList.size());
-//        final SearchResultAdapter searchResultAdapter = new SearchResultAdapter(searchResultModelList);
-//        final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(searchResultAdapter);
-//        searchResultRecyclerView.setAdapter(loadMoreWrapper);
-//        spinKitView.setVisibility(View.GONE);
-//        //点击跳转到详情页
-//        searchResultAdapter.setOnItemClickListener(new SearchResultAdapter.OnItemClickListener() {
+    @UiThread
+    void setSearchResultModelList(List<SearchResultModel> resultModelList){
+        searchResultModelList = new ArrayList<>();
+        searchResultModelList.addAll(resultModelList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        searchResultRecyclerView.setLayoutManager(linearLayoutManager);
+        Log.d(TAG, "setSearchResultModelList: "+searchResultModelList.size());
+        final SearchResultAdapter searchResultAdapter = new SearchResultAdapter(searchResultModelList);
+        final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(searchResultAdapter);
+        searchResultRecyclerView.setAdapter(loadMoreWrapper);
+        spinKitView.setVisibility(View.GONE);
+        //点击跳转到详情页
+        searchResultAdapter.setOnItemClickListener(new SearchResultAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //todo 跳转到详情页
+                Bundle bundle = new Bundle();
+                bundle.putString("url",searchResultModelList.get(position).getUrl());
+                Fragment fragment = new SearchResultItemDetailFragment_();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                        .addToBackStack(null)  //将当前fragment加入到返回栈中
+                        .replace(R.id.fragment_container, fragment).commit();
+            }
+        });
+//        // 设置加载更多监听
+//        searchResultRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
 //            @Override
-//            public void onItemClick(View view, int position) {
-//                //todo 跳转到详情页
-//                Bundle bundle = new Bundle();
-//                bundle.putString("url",searchResultModelList.get(position).getUrl());
-//                Fragment fragment = new SearchResultItemDetailFragment_();
-//                fragment.setArguments(bundle);
-//                getFragmentManager().beginTransaction()
-//                        .addToBackStack(null)  //将当前fragment加入到返回栈中
-//                        .replace(R.id.fragment_container, fragment).commit();
-//            }
-//        });
-////        // 设置加载更多监听
-////        searchResultRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
-////            @Override
-////            public void onLoadMore() {
-////                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
-////
-////                if (searchResultModelList.size() < 21) {
-////                    // 模拟获取网络数据，延时1s
-////                    new Timer().schedule(new TimerTask() {
-////                        @Override
-////                        public void run() {
-//////                            getActivity().runOnUiThread(new Runnable() {
-//////                                @Override
-//////                                public void run() {
-//////                                    getSearchResults();
-//////                                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-//////                                }
-//////                            });
-////                        }
-////                    }, 1000);
-////                } else {
-////                    // 显示加载到底的提示
-////                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-////                }
-////            }
-////        });
-//        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
-//                //当actionId == XX_SEND 或者 XX_DONE时都触发
-//                //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
-//                //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
-//                if (actionId == EditorInfo.IME_ACTION_SEND
-//                        || actionId == EditorInfo.IME_ACTION_DONE
-//                        || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
-////                    //处理事件
-//                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                    Fragment fragment = new SearchResultFragment_();
-//                    transaction.replace(R.id.fragment_container,fragment);
-//                    String keyword = textView.getText().toString();
-//                    Bundle newBundle = new Bundle();
-//                    newBundle.putString("keyword",keyword);
-//                    fragment.setArguments(newBundle);
-//                    Log.d("enterinput-------",textView.getText().toString());
-//                    transaction.addToBackStack(null);
-//                    transaction.commit();
+//            public void onLoadMore() {
+//                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING);
+//
+//                if (searchResultModelList.size() < 21) {
+//                    // 模拟获取网络数据，延时1s
+//                    new Timer().schedule(new TimerTask() {
+//                        @Override
+//                        public void run() {
+////                            getActivity().runOnUiThread(new Runnable() {
+////                                @Override
+////                                public void run() {
+////                                    getSearchResults();
+////                                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
+////                                }
+////                            });
+//                        }
+//                    }, 1000);
+//                } else {
+//                    // 显示加载到底的提示
+//                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
 //                }
-//                return false;
 //            }
 //        });
-//    }
+        searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                //当actionId == XX_SEND 或者 XX_DONE时都触发
+                //或者event.getKeyCode == ENTER 且 event.getAction == ACTION_DOWN时也触发
+                //注意，这是一定要判断event != null。因为在某些输入法上会返回null。
+                if (actionId == EditorInfo.IME_ACTION_SEND
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() && KeyEvent.ACTION_DOWN == event.getAction())) {
+//                    //处理事件
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    Fragment fragment = new SearchResultFragment_();
+                    transaction.replace(R.id.fragment_container,fragment);
+                    String keyword = textView.getText().toString();
+                    Bundle newBundle = new Bundle();
+                    newBundle.putString("keyword",keyword);
+                    fragment.setArguments(newBundle);
+                    Log.d("enterinput-------",textView.getText().toString());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                return false;
+            }
+        });
+    }
 
     @Background
     void getSearchResults(String keyword,String username){
@@ -181,16 +181,17 @@ public class SearchResultFragment extends Fragment {
 //        }
 //        setSearchResultModelList(searchResultModels);
 
-//        try {
-//            Log.i(TAG, "getSearchResults: "+keyword);
-//            List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
-            Log.i(TAG, "getSearchResults: "+searchService.queryWithWord(keyword,username).size());
-//            setSearchResultModelList(resultModelList);
-//        }catch (ResponseException e){
-//            makeToast(e.getMessage());
-//        }catch (Exception e){
-//            makeToast("请检查网络连接");
-//        }
+        try {
+            Log.i(TAG, "getSearchResults: "+keyword);
+            List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
+            Log.i(TAG, "getSearchResults: "+resultModelList);
+            setSearchResultModelList(resultModelList);
+        }catch (ResponseException e){
+            makeToast(e.getMessage());
+        }catch (Exception e){
+            Log.i(TAG, "getSearchResults: "+e.getMessage());
+            makeToast("请检查网络连接");
+        }
     }
 
     @UiThread
