@@ -176,7 +176,8 @@ public class TimerService extends Service {
                     break;
             }
         } catch (Exception e) {
-            showError("网络连接错误！");
+            Log.e("传输APP计时错误",e.getMessage());
+//            showError("网络连接错误！");
         }
     }
 

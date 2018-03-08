@@ -120,31 +120,31 @@ public class MemoFragment extends Fragment {
 
     @Background
     void getMemos(int pageNum,String username){
-//        List<MemoModel> result = new ArrayList<>();
-//        for(int i=0;i<PAGE_SIZE;i++){
-////            String keyword = "how to draw a polygon fabricjs";
-//            String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
-//            String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
-//            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
-//            String type = i%2==0?"API":"功能查询";
-//            MemoModel memoModel = new MemoModel(name,"",snippet,new Date(),keywords,type+i,i);
-//            result.add(memoModel);
-//        }
-//        setMemoModelList(result);
-//        Log.d(TAG, "getMemos: "+result.size()%PAGE_SIZE);
-//        if(result.size()%PAGE_SIZE!=0){
-//            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-//        }
-
-        try {
-            List<MemoModel> resultModelList = memoService.getMemoList(username,pageNum,PAGE_SIZE) ;
-            Log.d(TAG, "getMemos: "+resultModelList.size());
-            setMemoModelList(resultModelList);
-        }catch (ResponseException e){
-            makeToast(e.getMessage());
-        }catch (Exception e){
-            makeToast("请检查网络连接");
+        List<MemoModel> result = new ArrayList<>();
+        for(int i=0;i<PAGE_SIZE;i++){
+//            String keyword = "how to draw a polygon fabricjs";
+            String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
+            String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
+            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
+            String type = i%2==0?"API":"功能查询";
+            MemoModel memoModel = new MemoModel(name,"",snippet,new Date(),keywords,type+i,i,"");
+            result.add(memoModel);
         }
+        setMemoModelList(result);
+        Log.d(TAG, "getMemos: "+result.size()%PAGE_SIZE);
+        if(result.size()%PAGE_SIZE!=0){
+            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
+        }
+
+//        try {
+//            List<MemoModel> resultModelList = memoService.getMemoList(username,pageNum,PAGE_SIZE) ;
+//            Log.d(TAG, "getMemos: "+resultModelList.size());
+//            setMemoModelList(resultModelList);
+//        }catch (ResponseException e){
+//            makeToast(e.getMessage());
+//        }catch (Exception e){
+//            makeToast("请检查网络连接");
+//        }
     }
 
     @Background

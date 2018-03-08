@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         }catch (ResponseException e){
             makeToast(e.getMessage());
         }catch (Exception e){
-            makeToast("请检查网络连接");
+//            makeToast("请检查网络连接");
         }
     }
 

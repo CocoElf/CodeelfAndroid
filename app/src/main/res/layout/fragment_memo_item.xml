@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_marginTop="24dp">
-
-        <TextView
-            android:id="@+id/fragment_memo_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#3F51B5"
-            android:textSize="14sp"/>
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/fragment_memo_item_keyword_part"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp">
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/fragment_memo_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进入这个activity时系统并进入这个activity时系统并"
+                android:lines="1"
+                android:maxEms="15"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <TextView
+                    android:id="@+id/search_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="[API]"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -33,37 +49,47 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:text="进入这个activity时系统并没有自动弹出输入法键盘,于是上网搜索,发现一个很简单的方法,就是在manifest清单文件对应的activity配置中加入一句android:w..."
             android:textSize="12sp" />
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="6dp"
-            android:src="@drawable/ic_fragment_memo_item_delete" />
+            android:orientation="horizontal">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_marginTop="6dp">-->
-           <!---->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:text="删除"-->
-                <!--android:textSize="12sp"/>-->
-        <!--</LinearLayout>-->
+            <TextView
+                android:id="@+id/memo_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2018/03/24"
+                android:textColor="@color/light_gray_inactive_icon" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text=" Spring | java "
+                android:textColor="@color/colorPrimary" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_fragment_memo_item_delete" />
+            </LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#e0e0e0"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp"
+            android:background="#e0e0e0" />
     </LinearLayout>
-
 
 
 </LinearLayout>
