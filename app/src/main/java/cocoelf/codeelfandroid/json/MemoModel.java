@@ -41,11 +41,6 @@ public class MemoModel implements Serializable {
         this.name = name;
     }
 
-    public String getTitle(){
-        String temp = "["+type+"]  "+name;
-        return temp.length()>48?temp.substring(0,45)+"...":temp;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -68,10 +63,6 @@ public class MemoModel implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getFormatDate() {
-        return new SimpleDateFormat("yyyy/MM/ss").format(date);
     }
 
     public List<String> getKeywords() {
