@@ -26,6 +26,7 @@ import org.androidannotations.annotations.EFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -68,17 +69,28 @@ public class TaskFragment extends Fragment {
     }
 
 
+    /**
+     * 初始化每日活跃度
+     */
     protected void initDailyView() {
-        dailyView.setData(2018, 12, 9, 2);
-        dailyView.setData(2018, 11, 9, 1);
-        dailyView.setData(2018, 10, 5, 10);
-        dailyView.setData(2018, 8, 9, 3);
-        dailyView.setData(2018, 4, 20, 2);
-        dailyView.setData(2018, 12, 13, 3);
-        dailyView.setData(2018, 12, 14, 3);
-        dailyView.setData(2018, 2, 15, 4);
+        Random random=new Random();
+        for(int i=1;i<=31;i++){
+            int j=random.nextInt(14);
+            dailyView.setData(2018, 1, i, j);
+        }
+        for(int i=1;i<=28;i++){
+            int j=random.nextInt(14);
+            dailyView.setData(2018, 2, i, j);
+        }
+        for(int i=1;i<=10;i++){
+            int j=random.nextInt(14);
+            dailyView.setData(2018, 3, i, j);
+        }
     }
 
+    /**
+     * 初始化对编程时间的处理
+     */
     public void initHandler(){
         this.mHandler = new Handler(){
             @Override

@@ -32,7 +32,7 @@ public class DailyView extends View {
     private final static int DEFAULT_BOX_COLOUR = 0xFFEEEEEE;
     /**提交次数颜色值**/
     private final static int[] COLOUR_LEVEL =
-            new int[]{0xFF1E6823, 0xFF44A340, 0xFF8CC665, 0xFFD6E685, DEFAULT_BOX_COLOUR};
+            new int[]{Color.parseColor("#7fbfff") , Color.parseColor("#a8d3ff") , Color.parseColor("#cce5ff") , Color.parseColor("#eaf4ff") ,DEFAULT_BOX_COLOUR};
     /**星期**/
     private String[] weeks = new String[]{"Mon", "Wed", "Fri", "Sun"};
     /**月份**/
@@ -110,7 +110,7 @@ public class DailyView extends View {
         canvas.save();
         drawBox(canvas);
         drawWeek(canvas);
-        drawTag(canvas);
+//        drawTag(canvas);
         drawPopupInfo(canvas);
         canvas.restore();
     }
@@ -323,20 +323,16 @@ public class DailyView extends View {
      */
     private int getColour(int contribution){
         int colour = 0;
-        if (contribution <= 0){
-            colour = COLOUR_LEVEL[4];
-        }
-        if (contribution == 1){
-            colour = COLOUR_LEVEL[3];
-        }
-        if (contribution == 4){
-            colour = COLOUR_LEVEL[2];
-        }
-        if (contribution == 7){
-            colour = COLOUR_LEVEL[1];
-        }
-        if (contribution >= 10){
+        if (contribution > 10){
             colour = COLOUR_LEVEL[0];
+        }else if (contribution > 7){
+            colour = COLOUR_LEVEL[1];
+        }else if (contribution > 4){
+            colour = COLOUR_LEVEL[2];
+        }else if (contribution > 1){
+            colour = COLOUR_LEVEL[3];
+        }else if (contribution >=0){
+            colour = COLOUR_LEVEL[4];
         }
         return colour;
     }
