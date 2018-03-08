@@ -23,13 +23,15 @@ import cocoelf.codeelfandroid.service.TimerService;
 
 @EFragment
 public class ClockFragment extends Fragment {
+    public static final String TAG="ClockFragment";
 
     public static final String CLOCK_ACTION = "cocoelf.codeelfandroid.service.TimerService";
     private long time = 0;
 
     private Bundle taskBundle=new Bundle();
     private CircleTextImageView circleTextImageView;
-
+    String nowtime="00:00:00";
+    boolean isStop=false;
     public ClockFragment() {
         // Required empty public constructor
     }
@@ -45,6 +47,7 @@ public class ClockFragment extends Fragment {
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+            Log.e(TAG,"createView");
         // Inflate the layout for this fragment
         return  inflater.inflate(R.layout.fragment_clock, container, false);
     }
@@ -53,6 +56,14 @@ public class ClockFragment extends Fragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
         circleTextImageView=getActivity().findViewById(R.id.show_time);
+        circleTextImageView.setText(nowtime);
+        if(isStop){
+            getActivity().findViewById(R.id.play).setVisibility(View.VISIBLE);
+            getActivity().findViewById(R.id.pause).setVisibility(View.GONE);
+        }else {
+            getActivity().findViewById(R.id.play).setVisibility(View.GONE);
+            getActivity().findViewById(R.id.pause).setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -90,6 +101,7 @@ public class ClockFragment extends Fragment {
         intent.setAction(TimerService.CLOCK_SERVICE_ACTION);
         intent.putExtra("method", "continue");
         getActivity().sendBroadcast(intent);
+        isStop=false;
     }
 
     //通过发送广播，控制计时服务
@@ -102,6 +114,7 @@ public class ClockFragment extends Fragment {
         intent.setAction(TimerService.CLOCK_SERVICE_ACTION);
         intent.putExtra("method","pause");
         getActivity().sendBroadcast(intent);
+        isStop=true;
     }
 
     @Override
@@ -147,6 +160,7 @@ public class ClockFragment extends Fragment {
         }
         stime = shour + ":" + sminute + ":" + ssecond;
         circleTextImageView.setText(stime);
+        nowtime=stime;
     }
 
 

@@ -50,6 +50,7 @@ public class TaskFragment extends Fragment {
     private static int period = 1000; //1s
     View childView;
     View parentView;
+    int timeIndex;
     DailyView dailyView;
 
     @Override
@@ -95,10 +96,12 @@ public class TaskFragment extends Fragment {
         this.mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                String time=changeTime(count);
                 TextView textView=childView.findViewById(R.id.timerView);
-                textView.setText(changeTime(count));
+                textView.setText(time);
                 TextView textView2=parentView.findViewById(R.id.code_time);
-                textView2.setText(changeTime(count));
+                textView2.setText(time);
+                children.set(timeIndex,time);
             }
         };
     }
@@ -141,6 +144,7 @@ public class TaskFragment extends Fragment {
                 Log.d(TAG, "onGroupClick: groupPosition:" + groupPosition + ", id:" + id);
                 boolean groupExpanded = parent.isGroupExpanded(groupPosition);
                 parentView=v;
+                timeIndex=groupPosition;
                 return false;
             }
         });

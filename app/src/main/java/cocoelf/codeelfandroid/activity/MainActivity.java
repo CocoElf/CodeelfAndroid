@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        int position = 0;
+                        int position = 1;
                         switch (item.getItemId()) {
                             case R.id.item_clock:
                                 position = 0;
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity
                 if (menuItem != null) {
                     menuItem.setChecked(false);
                 } else {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                    bottomNavigationView.getMenu().getItem(1).setChecked(false);
                 }
 
                 menuItem = bottomNavigationView.getMenu().getItem(position);
@@ -494,7 +494,8 @@ public class MainActivity extends AppCompatActivity
 
             //获取解析结果
             OCR ocr;
-            ocr = this.client.recognizeText(inputStream, LanguageCodes.ChineseSimplified, true);
+            ocr = this.client.recognizeText(inputStream, LanguageCodes.AutoDetect, true);
+            Log.d("ocr", ocr.toString());
 
             //获取用户名
             SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);

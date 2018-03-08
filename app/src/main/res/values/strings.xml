@@ -20,7 +20,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--语音的key和配置-->
-    <string name="primaryKey">186ffcb720494b1a98edbe0df7713b14</string>
+    <string name="primaryKey">a88c593833e94b929354a03635651cc3</string>
     <string name="localLanguage">zh-cn</string>
     <string name="add_subscription_key_tip_title">Subscription Key is Needed</string>
     <string name="add_subscription_key_tip">Please put your subscription key to source file \"app/res/values/strings.xml\" to enable Speech API calls.</string>
