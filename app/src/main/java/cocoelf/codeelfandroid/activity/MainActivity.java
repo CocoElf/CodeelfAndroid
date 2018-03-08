@@ -167,17 +167,11 @@ public class MainActivity extends AppCompatActivity
                             case R.id.item_clock:
                                 position = 0;
                                 break;
-                            case R.id.item_advice:
+                            case R.id.menu_empty:
                                 position = 1;
                                 break;
-                            case R.id.menu_empty:
-                                position = 2;
-                                break;
                             case R.id.item_memo:
-                                position = 3;
-                                break;
-                            case R.id.item_share:
-                                position = 4;
+                                position = 2;
                                 break;
                         }
                         popAll();
@@ -257,17 +251,15 @@ public class MainActivity extends AppCompatActivity
      *设置初始默认页面
      */
     private void setInitPage() {
-        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(2).getItemId());
-        viewPager.setCurrentItem(2);
+        bottomNavigationView.setSelectedItemId(bottomNavigationView.getMenu().getItem(1).getItemId());
+        viewPager.setCurrentItem(1);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ClockFragment_());
-        adapter.addFragment(new AdviceFragment_());
         adapter.addFragment(new SearchFragment_());
         adapter.addFragment(new MemoFragment_());
-        adapter.addFragment(new ShareFragment_());
         viewPager.setAdapter(adapter);
     }
 

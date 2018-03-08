@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:allowBackup="true"
@@ -28,33 +28,34 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <service
+            android:name=".service.TimerService_"
             android:enabled="true"
-            android:exported="false"
-            android:name="cocoelf.codeelfandroid.service.TimerService_" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cocoelf.codeelfandroid.service.TimerService" />
             </intent-filter>
         </service>
-        <receiver
-            android:name=".receiver.AlarmReceiver" >
-        </receiver>
+
+        <receiver android:name=".receiver.AlarmReceiver"></receiver>
+
         <activity android:name=".activity.RegisterActivity_" />
         <activity android:name=".activity.LoginActivity_" />
         <activity
             android:name=".activity.MainActivity_"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
-        <activity android:name=".activity.TimerActivity_"
-            android:theme="@style/AppTheme.NoActionBar">
-
+        <activity
+            android:name=".activity.TimerActivity_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.GitHubActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

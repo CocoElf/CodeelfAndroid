@@ -147,3 +147,7 @@ dependencies {
     compile 'com.github.thinkcool:circletextimageview:1.0.20151218'
     compile 'com.dou361.dialogui:jjdxm-dialogui:1.0.1'
 }
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}
