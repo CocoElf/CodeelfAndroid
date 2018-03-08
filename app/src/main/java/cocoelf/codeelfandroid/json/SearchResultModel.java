@@ -13,7 +13,7 @@ public class SearchResultModel implements Serializable{
     private String name;
     private String url;
     private String snippet;
-    private Date date;
+    private Date dateLastCrawled;
     private List<String> keywords;
     private String type;
 
@@ -21,11 +21,11 @@ public class SearchResultModel implements Serializable{
     public SearchResultModel() {
     }
 
-    public SearchResultModel(String name, String url, String snippet, Date date, List<String> keywords, String type) {
+    public SearchResultModel(String name, String url, String snippet, Date dateLastCrawled, List<String> keywords, String type) {
         this.name = name;
         this.url = url;
         this.snippet = snippet;
-        this.date = date;
+        this.dateLastCrawled = dateLastCrawled;
         this.keywords = keywords;
         this.type = type;
     }
@@ -36,11 +36,6 @@ public class SearchResultModel implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTitle(){
-        String temp = "["+type+"]  "+name;
-        return temp.length()>43?temp.substring(0,40)+"...":temp;
     }
 
     public String getUrl() {
@@ -59,16 +54,16 @@ public class SearchResultModel implements Serializable{
         this.snippet = snippet;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateLastCrawled() {
+        return dateLastCrawled;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateLastCrawled(Date dateLastCrawled) {
+        this.dateLastCrawled = dateLastCrawled;
     }
 
     public String getFormatDate() {
-        return new SimpleDateFormat("yyyy/MM/ss").format(date);
+        return new SimpleDateFormat("yyyy/MM/ss").format(dateLastCrawled);
     }
 
     public List<String> getKeywords() {
@@ -86,4 +81,12 @@ public class SearchResultModel implements Serializable{
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "SearchResultModel{" + "name='" + name + '\'' + ", url='" + url + '\'' + ", snippet='" + snippet +
+                '\'' + ", dateLastCrawled=" + dateLastCrawled + ", keywords=" + keywords + ", type='" + type + '\'' +
+                '}';
+    }
+
 }

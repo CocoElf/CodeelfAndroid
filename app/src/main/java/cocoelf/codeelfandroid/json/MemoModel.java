@@ -17,11 +17,12 @@ public class MemoModel implements Serializable {
     private List<String> keywords;
     private String type;
     private Integer memoId;
+    private String content;
 
     public MemoModel() {
     }
 
-    public MemoModel(String name, String url, String snippet, Date date, List<String> keywords, String type, Integer memoId) {
+    public MemoModel(String name, String url, String snippet, Date date, List<String> keywords, String type, Integer memoId,String content) {
         this.name = name;
         this.url = url;
         this.snippet = snippet;
@@ -29,6 +30,7 @@ public class MemoModel implements Serializable {
         this.keywords = keywords;
         this.type = type;
         this.memoId = memoId;
+        this.content = content;
     }
 
     public String getName() {
@@ -94,5 +96,13 @@ public class MemoModel implements Serializable {
 
     public void setMemoId(Integer memoId) {
         this.memoId = memoId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

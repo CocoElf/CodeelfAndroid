@@ -24,6 +24,8 @@ public class SearchResultItemDetailFragment extends Fragment {
     @ViewById(R.id.fragment_search_result_item_detail_content)
     WebView webView;
 
+
+
     private ProgressDialog mProgressDialog;
 
     @AfterViews

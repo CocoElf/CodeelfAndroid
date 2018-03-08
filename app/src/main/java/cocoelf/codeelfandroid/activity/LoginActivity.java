@@ -24,6 +24,7 @@ import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.exception.ResponseException;
 import cocoelf.codeelfandroid.json.UserModel;
 import cocoelf.codeelfandroid.service.UserService;
+import jp.wasabeef.richeditor.RichEditor;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             usernameInput.setText(username);
             passwordInput.setText(password);
         }
+
     }
 
     @Click(R.id.login_btn)
@@ -75,8 +77,10 @@ public class LoginActivity extends AppCompatActivity {
 
     @Background
     void submit(String username,String password){
+        Log.i(TAG, "submit: ");
         try{
             UserModel userModel = userService.login(username,password);
+            Log.d(TAG, "submit: "+userModel.toString());
             saveLogin(userModel);
         }catch (ResponseException e){
             makeToast(e.getMessage());
@@ -90,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("user",MODE_PRIVATE).edit();
         editor.putString("username",userModel.getUsername());
         editor.apply();
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this,MainActivity_.class);
         startActivity(intent);
 //        SharedPreferences sharedPreferences = getSharedPreferences("user",MODE_PRIVATE);
 //        String username = sharedPreferences.getString("username","");

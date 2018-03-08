@@ -51,7 +51,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SearchResultModel searchResultModel = searchResultModelList.get(position);
-        SpannableString string = new SpannableString(searchResultModel.getTitle());
+        SpannableString string = new SpannableString(searchResultModel.getName());
         string.setSpan(new ForegroundColorSpan(Color.parseColor("#F55D54")),0,searchResultModel.getType().length()+2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.searchResultItemName.setText(string);
         SpannableString das = new SpannableString(searchResultModel.getFormatDate()+" - "+searchResultModel.getSnippet());
