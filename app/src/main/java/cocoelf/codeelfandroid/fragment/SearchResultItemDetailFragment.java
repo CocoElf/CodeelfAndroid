@@ -85,6 +85,7 @@ public class SearchResultItemDetailFragment extends Fragment {
             Date date = new Date(bundle.getLong("date"));
             MemoModel memoModel = new MemoModel(name,url,snippet,date,keywords,type,null,html);
             addMemo(memoModel);
+
         }
     }
 
