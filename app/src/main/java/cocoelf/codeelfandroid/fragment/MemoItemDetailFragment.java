@@ -94,8 +94,8 @@ public class MemoItemDetailFragment extends Fragment {
     @UiThread
     void setHtml(String html){
         Log.i(TAG, "setHtml: ");
-        mProgressDialog.dismiss();
         richEditor.setHtml(html);
+        mProgressDialog.dismiss();
     }
 
     @Click(R.id.action_undo)

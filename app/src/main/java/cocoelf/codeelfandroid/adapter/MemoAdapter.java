@@ -74,7 +74,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> im
     }
 
     private String formatDate(Date date){
-        return new SimpleDateFormat("yyyy/MM/ss").format(date);
+        return new SimpleDateFormat("yyyy/MM/dd").format(date);
     }
 
     @Override

@@ -97,7 +97,7 @@ public class SearchResultFragment extends Fragment {
     }
 
     private String geneUrl(String url){
-        return "http://172.17.209.26"+url;
+        return url.startsWith("http")?url:"http://172.19.115.226"+url;
 //        return url.replaceFirst("null","172.17.209.26");
     }
 

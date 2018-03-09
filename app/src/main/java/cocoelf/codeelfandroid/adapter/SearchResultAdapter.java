@@ -89,7 +89,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     }
 
     private String formatDate(Date date){
-        return new SimpleDateFormat("yyyy/MM/ss").format(date);
+        return new SimpleDateFormat("yyyy/MM/dd").format(date);
     }
 
     //获取数据的数量

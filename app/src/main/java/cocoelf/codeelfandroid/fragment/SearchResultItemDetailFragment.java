@@ -2,6 +2,7 @@ package cocoelf.codeelfandroid.fragment;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -58,17 +59,17 @@ public class SearchResultItemDetailFragment extends Fragment {
             mProgressDialog = ProgressDialog.show(getContext(),"",null);
             webView.getSettings().setJavaScriptEnabled(true);
             webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
+            String url = bundle.getString("url");
+            Log.i(TAG, url);
             webView.loadUrl(bundle.getString("url"));
             webView.setWebViewClient(new WebViewClient(){
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
+                    view.loadUrl("javascript:window.local_obj.showSource('<head>'+" + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                     mProgressDialog.dismiss();
-                    view.loadUrl("javascript:window.local_obj.showSource('<head>'+"
-                            + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
                 }
             });
-
         }
     }
 
@@ -76,6 +77,7 @@ public class SearchResultItemDetailFragment extends Fragment {
         @JavascriptInterface
         public void showSource(String html) {
             Log.i(TAG, "showSource: ");
+            mProgressDialog.dismiss();
             Bundle bundle = getArguments();
             String name = bundle.getString("name");
             String url = bundle.getString("url");
