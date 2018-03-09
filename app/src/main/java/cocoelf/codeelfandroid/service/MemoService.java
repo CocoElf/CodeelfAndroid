@@ -1,6 +1,8 @@
 package cocoelf.codeelfandroid.service;
 
+import org.androidannotations.rest.spring.annotations.Body;
 import org.androidannotations.rest.spring.annotations.Part;
+import org.androidannotations.rest.spring.annotations.Path;
 import org.androidannotations.rest.spring.annotations.Post;
 import org.androidannotations.rest.spring.annotations.Rest;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -21,14 +23,14 @@ import cocoelf.codeelfandroid.util.RestAPI;
 public interface MemoService {
 
     @Post("/api/memo/memoList")
-    List<MemoModel> getMemoList(@Part String username, @Part Integer pageNum, @Part Integer pageSize);
+    List<MemoModel> getMemoList(@Part String username, @Part String pageNum, @Part String pageSize);
 
     @Post("/api/memo/memoDetail")
-    MemoModel getMemoDetail(@Part Integer memoId, @Part String username);
+    MemoModel getMemoDetail(@Part String memoId, @Part String username);
 
-    @Post("/api/memo/addMemo")
-    MemoModel addMemo(@Part MemoModel memoModel, @Part String username);
+    @Post("/api/memo/addMemo/{username}")
+    MemoModel addMemo(@Body MemoModel memoModel, @Path String username);
 
-    @Post("/api/memo/deleteMemo")
-    Boolean deleteMemo(@Part MemoModel memoModel,@Part String username);
+    @Post("/api/memo/deleteMemo/{username}")
+    Boolean deleteMemo(@Body MemoModel memoModel,@Path String username);
 }

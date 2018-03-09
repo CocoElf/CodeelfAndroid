@@ -53,7 +53,7 @@ public class MemoFragment extends Fragment {
 
     private static final String TAG = "MemoFragment->";
 
-    private static final int PAGE_SIZE = 30;
+    private int PAGE_SIZE = 30;
 
     private int presentPage = 0;
 
@@ -85,7 +85,7 @@ public class MemoFragment extends Fragment {
     @UiThread
     void setMemoModelList(List<MemoModel> resultModelList){
 //        memoModelList = new ArrayList<>();
-        memoModelList.addAll(resultModelList);
+        memoModelList = resultModelList;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         memoRecyclerView.setLayoutManager(linearLayoutManager);
         Log.d(TAG, "setMemoModelList: "+memoModelList.size());
@@ -99,7 +99,14 @@ public class MemoFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick: ");
                 //处理事件
-                addMemo(memoModelList.get(position),username);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                Fragment fragment = new MemoItemDetailFragment_();
+                transaction.replace(R.id.fragment_container,fragment);
+                Bundle bundle = new Bundle();
+                bundle.putInt("memoId",memoModelList.get(position).getMemoId());
+                fragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
 
             }
@@ -120,38 +127,10 @@ public class MemoFragment extends Fragment {
 
     @Background
     void getMemos(int pageNum,String username){
-        List<MemoModel> result = new ArrayList<>();
-        for(int i=0;i<PAGE_SIZE;i++){
-//            String keyword = "how to draw a polygon fabricjs";
-            String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
-            String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
-            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
-            String type = i%2==0?"API":"功能查询";
-            MemoModel memoModel = new MemoModel(name,"",snippet,new Date(),keywords,type+i,i,"");
-            result.add(memoModel);
-        }
-        setMemoModelList(result);
-        Log.d(TAG, "getMemos: "+result.size()%PAGE_SIZE);
-        if(result.size()%PAGE_SIZE!=0){
-            loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_END);
-        }
-
-//        try {
-//            List<MemoModel> resultModelList = memoService.getMemoList(username,pageNum,PAGE_SIZE) ;
-//            Log.d(TAG, "getMemos: "+resultModelList.size());
-//            setMemoModelList(resultModelList);
-//        }catch (ResponseException e){
-//            makeToast(e.getMessage());
-//        }catch (Exception e){
-//            makeToast("请检查网络连接");
-//        }
-    }
-
-    @Background
-    void addMemo(MemoModel memoModel,String username){
         try {
-            memoService.addMemo(memoModel,username);
-            toMemoDetail(memoModel.getMemoId());
+            List<MemoModel> resultModelList = memoService.getMemoList(username,pageNum+"",PAGE_SIZE+"") ;
+            Log.d(TAG, "getMemos: "+resultModelList.size());
+            setMemoModelList(resultModelList);
         }catch (ResponseException e){
             makeToast(e.getMessage());
         }catch (Exception e){
@@ -159,17 +138,6 @@ public class MemoFragment extends Fragment {
         }
     }
 
-    @UiThread
-    void toMemoDetail(Integer memoId){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new MemoItemDetailFragment_();
-        transaction.replace(R.id.fragment_container,fragment);
-        Bundle bundle = new Bundle();
-        bundle.putInt("memoId",memoId);
-        fragment.setArguments(bundle);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     @UiThread
     void makeToast(String message){

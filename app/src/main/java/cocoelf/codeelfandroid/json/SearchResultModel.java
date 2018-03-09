@@ -39,6 +39,7 @@ public class SearchResultModel implements Serializable{
     }
 
     public String getUrl() {
+
         return url;
     }
 

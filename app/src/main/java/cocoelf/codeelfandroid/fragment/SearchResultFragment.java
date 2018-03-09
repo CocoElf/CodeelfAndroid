@@ -44,8 +44,10 @@ import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.adapter.LoadMoreWrapper;
 import cocoelf.codeelfandroid.adapter.SearchResultAdapter;
 import cocoelf.codeelfandroid.exception.ResponseException;
+import cocoelf.codeelfandroid.json.MemoModel;
 import cocoelf.codeelfandroid.json.SearchResultModel;
 import cocoelf.codeelfandroid.listener.EndlessRecyclerOnScrollListener;
+import cocoelf.codeelfandroid.service.MemoService;
 import cocoelf.codeelfandroid.service.SearchService;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -75,6 +77,8 @@ public class SearchResultFragment extends Fragment {
     @RestService
     SearchService searchService;
 
+    private String username;
+
     @AfterViews
     void init(){
         Log.d(TAG, "init: ");
@@ -84,11 +88,17 @@ public class SearchResultFragment extends Fragment {
             String keyword = bundle.getString("keyword");
             searchView.setText(keyword);
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user",MODE_PRIVATE);
-            String username = sharedPreferences.getString("username","");
-            getSearchResults(keyword,"shea");
+//            username = sharedPreferences.getString("username","");
+            username = "shea";
+            getSearchResults(keyword,username);
         }else {
             setSearchResultModelList(new ArrayList<SearchResultModel>());
         }
+    }
+
+    private String geneUrl(String url){
+        return "http://172.17.209.26"+url;
+//        return url.replaceFirst("null","172.17.209.26");
     }
 
     @UiThread
@@ -106,9 +116,18 @@ public class SearchResultFragment extends Fragment {
         searchResultAdapter.setOnItemClickListener(new SearchResultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //todo 跳转到详情页
+
+                SearchResultModel searchResultModel = searchResultModelList.get(position);
+                //跳转到详情页
                 Bundle bundle = new Bundle();
-                bundle.putString("url",searchResultModelList.get(position).getUrl());
+                bundle.putString("name",searchResultModel.getName());
+                bundle.putString("snippet",searchResultModel.getSnippet());
+                bundle.putString("url",geneUrl(searchResultModel.getUrl()));
+                ArrayList<String> keywords = new ArrayList<>();
+                keywords.addAll(searchResultModel.getKeywords());
+                bundle.putStringArrayList("keywords",keywords);
+                bundle.putString("type",searchResultModel.getType());
+                bundle.putLong("date",searchResultModel.getDateLastCrawled().getTime());
                 Fragment fragment = new SearchResultItemDetailFragment_();
                 fragment.setArguments(bundle);
                 getFragmentManager().beginTransaction()
@@ -168,23 +187,11 @@ public class SearchResultFragment extends Fragment {
         });
     }
 
+
     @Background
     void getSearchResults(String keyword,String username){
-//        List<SearchResultModel> searchResultModels = new ArrayList<>();
-//        for(int i=0;i<20;i++){
-//            String name = "arcpy - Draw polygon with GUI - Geographic Information ...";
-//            String snippet = "I'm looking to make a python add in tool for ArcMap to draw a polygon. Eventually I want the tool to also calculate the area and a bunch of other things but for now I would be happy just drawing an";
-//            List<String> keywords = Arrays.asList(new String[]{"Spring","java"});
-//            String type = i%2==0?"API":"功能查询";
-//            SearchResultModel searchResultModel = new SearchResultModel(name,"https://www.jianshu.com/p/3baddcf948af",snippet,new Date(),keywords,type+i);
-//            searchResultModels.add(searchResultModel);
-//        }
-//        setSearchResultModelList(searchResultModels);
-
         try {
-            Log.i(TAG, "getSearchResults: "+keyword);
             List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
-            Log.i(TAG, "getSearchResults: "+resultModelList);
             setSearchResultModelList(resultModelList);
         }catch (ResponseException e){
             makeToast(e.getMessage());

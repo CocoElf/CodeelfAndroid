@@ -87,7 +87,7 @@ public class MemoItemDetailFragment extends Fragment {
                    setHtml(text);
                 }
             });
-            getMemo((Integer)bundle.get("memoId"),username);
+            getMemo((Integer)bundle.get("memoId"));
         }
     }
 
@@ -213,10 +213,10 @@ public class MemoItemDetailFragment extends Fragment {
 
 
     @Background
-    void getMemo(int memoId,String username){
+    void getMemo(int memoId){
         //根据备忘录的ID获取备忘录
         try {
-            memoModel = memoService.getMemoDetail(memoId,username);
+            memoModel = memoService.getMemoDetail(String.valueOf(memoId),username);
             setHtml(memoModel.getContent());
         }catch (ResponseException e){
             makeToast(e.getMessage());

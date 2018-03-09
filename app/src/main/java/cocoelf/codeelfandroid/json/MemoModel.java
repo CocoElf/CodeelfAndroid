@@ -96,4 +96,11 @@ public class MemoModel implements Serializable {
     public void setContent(String content) {
         this.content = content;
     }
+
+    @Override
+    public String toString() {
+        return "MemoModel{" + "name='" + name + '\'' + ", url='" + url + '\'' + ", snippet='" + snippet + '\'' + ", " +
+                "date=" + date + ", keywords=" + keywords + ", type='" + type + '\'' + ", memoId=" + memoId + ", " +
+                "content='" + content + '\'' + '}';
+    }
 }
