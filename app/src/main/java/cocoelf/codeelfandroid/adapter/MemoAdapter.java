@@ -60,6 +60,9 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> im
     }
 
     private String geneKeywords(List<String> keywords){
+        if(keywords==null||keywords.size()==0){
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         int i;
         for(i =0;i<keywords.size()-1;i++){

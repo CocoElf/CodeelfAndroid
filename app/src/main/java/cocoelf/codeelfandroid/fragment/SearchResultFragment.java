@@ -45,6 +45,7 @@ import cocoelf.codeelfandroid.adapter.LoadMoreWrapper;
 import cocoelf.codeelfandroid.adapter.SearchResultAdapter;
 import cocoelf.codeelfandroid.exception.ResponseException;
 import cocoelf.codeelfandroid.json.MemoModel;
+import cocoelf.codeelfandroid.json.SearchModel;
 import cocoelf.codeelfandroid.json.SearchResultModel;
 import cocoelf.codeelfandroid.listener.EndlessRecyclerOnScrollListener;
 import cocoelf.codeelfandroid.service.MemoService;
@@ -106,13 +107,21 @@ public class SearchResultFragment extends Fragment {
         searchResultModelList = new ArrayList<>();
         searchResultModelList.addAll(resultModelList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        if(searchResultRecyclerView==null){
+            searchResultRecyclerView = (RecyclerView)getActivity().findViewById(R.id.fragment_search_result_list);
+        }
+        if(spinKitView==null){
+            spinKitView = (SpinKitView)getActivity().findViewById(R.id.spin_kit);
+
+        }
         searchResultRecyclerView.setLayoutManager(linearLayoutManager);
         Log.d(TAG, "setSearchResultModelList: "+searchResultModelList.size());
-        final SearchResultAdapter searchResultAdapter = new SearchResultAdapter(searchResultModelList);
-        final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(searchResultAdapter);
-        searchResultRecyclerView.setAdapter(loadMoreWrapper);
         spinKitView.setVisibility(View.GONE);
+        final SearchResultAdapter searchResultAdapter = new SearchResultAdapter(searchResultModelList);
+//        final LoadMoreWrapper loadMoreWrapper = new LoadMoreWrapper(searchResultAdapter);
+        searchResultRecyclerView.setAdapter(searchResultAdapter);
         //点击跳转到详情页
+
         searchResultAdapter.setOnItemClickListener(new SearchResultAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -191,7 +200,9 @@ public class SearchResultFragment extends Fragment {
     @Background
     void getSearchResults(String keyword,String username){
         try {
-            List<SearchResultModel> resultModelList = searchService.queryWithWord(keyword,username);
+            SearchModel searchModel = new SearchModel(keyword);
+            Log.i(TAG, "getSearchResults: "+keyword);
+            List<SearchResultModel> resultModelList = searchService.queryWithWord(searchModel,username);
             setSearchResultModelList(resultModelList);
         }catch (ResponseException e){
             makeToast(e.getMessage());
