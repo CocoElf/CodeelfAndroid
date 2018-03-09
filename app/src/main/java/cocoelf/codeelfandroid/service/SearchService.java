@@ -15,6 +15,7 @@ import java.util.List;
 import cocoelf.codeelfandroid.exception.MyResponseErrorHandler;
 import cocoelf.codeelfandroid.json.SearchModel;
 import cocoelf.codeelfandroid.json.SearchResultModel;
+import cocoelf.codeelfandroid.util.CustomFormHttpMessageConverter;
 import cocoelf.codeelfandroid.util.RestAPI;
 
 /**
@@ -22,11 +23,11 @@ import cocoelf.codeelfandroid.util.RestAPI;
  */
 
 @Rest(rootUrl = RestAPI.URL,
-        converters = {FormHttpMessageConverter.class, MappingJackson2HttpMessageConverter.class},
+        converters = {CustomFormHttpMessageConverter.class, FormHttpMessageConverter.class,MappingJackson2HttpMessageConverter.class},
         responseErrorHandler = MyResponseErrorHandler.class)
 public interface SearchService {
-    @Post("/api/search/queryWithWord")
-    List<SearchResultModel> queryWithWord(@Part String keyWord, @Part String username);
+    @Post("/api/search/queryWithWord/{username}")
+    List<SearchResultModel> queryWithWord(@Body SearchModel keyWord, @Path String username);
 
     @Post("/api/search/imgToWord/{username}")
     SearchModel imgToWord(@Body OCR ocr, @Path String username);
