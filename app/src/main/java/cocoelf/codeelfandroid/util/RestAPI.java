@@ -14,8 +14,8 @@ public class RestAPI {
      * 需要修改为服务器ip
      * 模拟器默认把127.0.0.1和localhost当做本身了，在模拟器上可以用10.0.2.2代替127.0.0.1和localhost
      */
-    public static final String IP = "10.0.2.2";
-//    public static final String IP = "172.19.142.34";
+//    public static final String IP = "10.0.2.2";
+    public static final String IP = "192.168.0.103";
 
     public static final int PORT = 8081;
 

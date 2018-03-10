@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     private List<SearchResultModel> searchResultModelList;
     private OnItemClickListener mOnItemClickListener = null;
 
+    private static final String TAG = "SearchResultAdapter";
+
     //define interface
     public static interface OnItemClickListener {
         void onItemClick(View view , int position);
@@ -40,6 +43,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,6 +75,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.searchResultItemDateAndSnippet.setText(das);
         if(holder.searchResultItemKeywordPart.getChildCount()==0){
             Context context = holder.searchResultItemKeywordPart.getContext();
+            Log.i(TAG, "onBindViewHolder: "+searchResultModel.getKeywords());
             for (String keyword:searchResultModel.getKeywords()) {
                 TextView textView = new TextView(context);
                 textView.setText(keyword);

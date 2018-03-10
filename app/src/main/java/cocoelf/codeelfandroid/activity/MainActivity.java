@@ -500,6 +500,7 @@ public class MainActivity extends AppCompatActivity
             //获取用户名
             SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
             String username = sharedPreferences.getString("username", "");
+             username="shea";
             result = searchService.imgToWord(ocr, username).getKeyword();
             Log.d("result", result);
         } catch (VisionServiceException e) {

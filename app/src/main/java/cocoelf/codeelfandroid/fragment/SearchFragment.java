@@ -75,6 +75,7 @@ public class SearchFragment extends Fragment implements ISpeechRecognitionServer
         getFragmentManager().beginTransaction()
                 .addToBackStack(null)  //将当前fragment加入到返回栈中
                 .replace(R.id.fragment_container, fragment).commit();
+//        search_input.setText("");
     }
 
     //下面都是语音功能部分

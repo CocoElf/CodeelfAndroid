@@ -13,6 +13,8 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.github.ybq.android.spinkit.SpinKitView;
+import com.zyao89.view.zloading.ZLoadingDialog;
+import com.zyao89.view.zloading.Z_TYPE;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import cocoelf.codeelfandroid.R;
+import cocoelf.codeelfandroid.activity.MainActivity;
 import cocoelf.codeelfandroid.exception.ResponseException;
 import cocoelf.codeelfandroid.json.MemoModel;
 import cocoelf.codeelfandroid.json.SearchResultModel;
@@ -49,14 +52,20 @@ public class SearchResultItemDetailFragment extends Fragment {
 
     private static final String TAG = "SearchResultItemDetailF";
 
+
+    ZLoadingDialog dialog;
     @AfterViews
     void init(){
+        //加载动画
+        dialog = new ZLoadingDialog(getActivity());
+        dialog.setLoadingBuilder(Z_TYPE.STAR_LOADING).setHintText("Loading...");
+
         Bundle bundle = getArguments();
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user",MODE_PRIVATE);
 //            username = sharedPreferences.getString("username","");
         username = "shea";
         if(bundle!=null&&bundle.containsKey("url")){
-            mProgressDialog = ProgressDialog.show(getContext(),"",null);
+            dialog.show();
             webView.getSettings().setJavaScriptEnabled(true);
             webView.addJavascriptInterface(new InJavaScriptLocalObj(), "local_obj");
             String url = bundle.getString("url");
@@ -67,17 +76,18 @@ public class SearchResultItemDetailFragment extends Fragment {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
                     view.loadUrl("javascript:window.local_obj.showSource('<head>'+" + "document.getElementsByTagName('html')[0].innerHTML+'</head>');");
-                    mProgressDialog.dismiss();
+                    dialog.dismiss();
                 }
             });
         }
+
     }
 
     final class InJavaScriptLocalObj {
         @JavascriptInterface
         public void showSource(String html) {
             Log.i(TAG, "showSource: ");
-            mProgressDialog.dismiss();
+            dialog.dismiss();
             Bundle bundle = getArguments();
             String name = bundle.getString("name");
             String url = bundle.getString("url");

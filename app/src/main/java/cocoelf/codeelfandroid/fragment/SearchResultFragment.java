@@ -50,6 +50,7 @@ import cocoelf.codeelfandroid.json.SearchResultModel;
 import cocoelf.codeelfandroid.listener.EndlessRecyclerOnScrollListener;
 import cocoelf.codeelfandroid.service.MemoService;
 import cocoelf.codeelfandroid.service.SearchService;
+import cocoelf.codeelfandroid.util.RestAPI;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -98,7 +99,7 @@ public class SearchResultFragment extends Fragment {
     }
 
     private String geneUrl(String url){
-        return url.startsWith("http")?url:"http://172.19.115.226"+url;
+        return url.startsWith("http")?url:"http://"+ RestAPI.IP+url;
 //        return url.replaceFirst("null","172.17.209.26");
     }
 
@@ -170,6 +171,9 @@ public class SearchResultFragment extends Fragment {
 //                }
 //            }
 //        });
+        if(searchView==null){
+            searchView = (EditText)getActivity().findViewById(R.id.fragment_search_result_search);
+        }
         searchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
