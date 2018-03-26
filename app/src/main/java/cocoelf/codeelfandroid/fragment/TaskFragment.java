@@ -3,6 +3,7 @@ package cocoelf.codeelfandroid.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,8 +21,10 @@ import android.widget.Toast;
 import com.dou361.dialogui.DialogUIUtils;
 import com.dou361.dialogui.listener.DialogUIItemListener;
 
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.rest.spring.annotations.RestService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +35,11 @@ import java.util.TimerTask;
 
 import cocoelf.codeelfandroid.R;
 import cocoelf.codeelfandroid.adapter.ExpandablelistAdapter;
+import cocoelf.codeelfandroid.service.TimingService;
+import cocoelf.codeelfandroid.util.CodeType;
 import cocoelf.codeelfandroid.view.DailyView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 @EFragment
 public class TaskFragment extends Fragment {
@@ -52,6 +59,9 @@ public class TaskFragment extends Fragment {
     View parentView;
     int timeIndex;
     DailyView dailyView;
+
+    @RestService
+    TimingService timingService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,12 +134,12 @@ public class TaskFragment extends Fragment {
         if (second <= 9) {
             ssecond = "0" + second;
         }
-        stime = '\t'+shour + ":" + sminute + ":" + ssecond;
+        stime = "\t"+shour + ":" + sminute + ":" + ssecond;
         return stime;
     }
 
     public void  initExpandableListView(){
-        parents.add("编码");parents.add("测试");parents.add("调试");
+        parents.add(CodeType.CODE.toString());parents.add(CodeType.TEST.toString());parents.add(CodeType.DEBUG.toString());
         children.add("00:00:00");children.add("00:00:00");children.add("00:00:00");
         final ExpandablelistAdapter adapter = new ExpandablelistAdapter(parents,children);
         listView.setAdapter(adapter);
@@ -153,18 +163,20 @@ public class TaskFragment extends Fragment {
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(getContext(), children.get(groupPosition).toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), children.get(groupPosition).toString(), Toast.LENGTH_SHORT).show();
                 ExpandablelistAdapter.ChildViewHolder childViewHolder= (ExpandablelistAdapter.ChildViewHolder) v.getTag();
                 childView=v;
-                begin_click(childViewHolder.begin);
-                end_click(childViewHolder.end);
+                CodeType codeType=CodeType.stringToCodeType(parents.get(groupPosition));
+                begin_click(childViewHolder.begin,codeType);
+                end_click(childViewHolder.end,codeType);
                 return true;
             }
         });
     }
 
+    /*
     @Click
-    public void chooseCodeType(){
+    public void chooseCodeType(){ //添加任务计时
         final String[] words = new String[]{"编码", "测试", "调试"};
         DialogUIUtils.showSingleChoose(getActivity(), "单选", 0, words, new DialogUIItemListener() {
             @Override
@@ -177,8 +189,11 @@ public class TaskFragment extends Fragment {
 
             }
         }).show();
-    }
+    }*/
 
+    /**
+     * 切换到任务模块
+     */
     @Click(R.id.task_work)
     public void changeToWork(){
         taskBundle.putString("s","return");
@@ -193,27 +208,42 @@ public class TaskFragment extends Fragment {
     }
 
 
-
-    public void begin_click(Button button){
+    /**
+     * 开始计时
+     * @param button
+     */
+    public void begin_click(final Button button, final CodeType codeType){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTimer();
+
+                startTimer(codeType,getUsername());
             }
         });
     }
 
-    public void end_click(Button button){
+    /**
+     * 结束计时
+     * @param button
+     */
+    public void end_click(Button button, final CodeType codeType){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopTimer();
+                stopTimer(codeType,getUsername());
             }
         });
     }
 
+    @Background
+    public void startTimer(CodeType codeType,String username){
+        try {
+            timingService.startTiming(codeType,username);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, "StartTimerError:" );
+        }
 
-    private void startTimer(){
         if (mTimer == null) {
             mTimer = new Timer();
         }
@@ -237,7 +267,15 @@ public class TaskFragment extends Fragment {
 
     }
 
-    private void stopTimer(){
+    @Background
+    public void stopTimer(CodeType codeType,String username){
+        try {
+            timingService.endTiming(codeType,username);
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.e(TAG, "EndTimerError" );
+        }
+
         if (mTimer != null) {
             mTimer.cancel();
             mTimer = null;
@@ -256,4 +294,15 @@ public class TaskFragment extends Fragment {
         }
     }
 
+    /**
+     * 获取用户名
+     * @return
+     */
+    private String getUsername(){
+        //获取用户名
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "");
+        username="shea";
+        return username;
+    }
 }

@@ -88,7 +88,7 @@ public class MemoFragment extends Fragment {
         memoModelList = resultModelList;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         memoRecyclerView.setLayoutManager(linearLayoutManager);
-        Log.d(TAG, "setMemoModelList: "+memoModelList.size());
+//        Log.d(TAG, "setMemoModelList: "+memoModelList.size());
         memoAdapter = new MemoAdapter(memoModelList);
         loadMoreWrapper = new LoadMoreWrapper(memoAdapter);
         memoRecyclerView.setAdapter(loadMoreWrapper);

@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:textSize="18sp"
             android:drawableLeft="@drawable/ic_access_time_black_24dp"
-            tools:text="\t00:00:00" />
+            tools:text="\t 00:00:00" />
 
         <ImageView
             android:id="@+id/iv_indicator"

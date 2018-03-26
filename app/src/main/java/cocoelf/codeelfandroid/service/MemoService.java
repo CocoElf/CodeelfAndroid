@@ -15,6 +15,7 @@ import cocoelf.codeelfandroid.json.MemoModel;
 import cocoelf.codeelfandroid.util.RestAPI;
 
 /**
+ * 备忘录接口
  * Created by shea on 2018/3/1.
  */
 @Rest(rootUrl = RestAPI.URL,

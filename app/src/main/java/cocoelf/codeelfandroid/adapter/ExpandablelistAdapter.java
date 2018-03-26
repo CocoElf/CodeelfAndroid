@@ -22,6 +22,7 @@ import java.util.TimerTask;
 import cocoelf.codeelfandroid.R;
 
 /**
+ * 任务计时列表适配器
  * Created by green-cherry on 2018/3/6.
  */
 
@@ -40,7 +41,6 @@ public class ExpandablelistAdapter extends BaseExpandableListAdapter {
     }
     //      根据分组的展开闭合状态设置指示器
     public void setIndicatorState(int groupPosition, boolean isExpanded) {
-        Log.e("iin",String.valueOf(mIndicators.size()));
         if (!isExpanded) {
             mIndicators.get(groupPosition).setImageResource(R.drawable.ic_expand_less);
         } else {
